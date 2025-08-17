@@ -71,7 +71,7 @@ public class WebRequesterDebug : MonoBehaviour
         Debug.Log(JsonUtility.ToJson(_message));
         Debug.Log("jsonMessage: "+ jsonMessage);
 
-        using (UnityWebRequest www = UnityWebRequest.Post(baseWebAddress + ENDPOINT_COMPLETION, jsonMessage, "application/json"))
+        using (UnityWebRequest www = UnityWebRequest.Post(baseWebAddress + ENDPOINT_HELLOWORLD, jsonMessage, "application/json"))
         {
             AddHeaders(www); // Header hinzufügen
 
