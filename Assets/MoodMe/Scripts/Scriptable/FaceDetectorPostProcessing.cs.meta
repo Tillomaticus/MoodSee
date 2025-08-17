@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: a97dcee41eda23f4d8fdcf4ac5a1f3dd
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 303290
+  packageName: MoodMe Emotions Sentis SDK
+  packageVersion: 1.0
+  assetPath: Assets/MoodMe/Scripts/Scriptable/FaceDetectorPostProcessing.cs
+  uploadId: 713842

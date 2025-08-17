@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 580e8e7bd3fc7b544943b03401d48f7b
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 300
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 303290
+  packageName: MoodMe Emotions Sentis SDK
+  packageVersion: 1.0
+  assetPath: Assets/MoodMe/Scripts/ManageEmotionsNetwork.cs
+  uploadId: 713842

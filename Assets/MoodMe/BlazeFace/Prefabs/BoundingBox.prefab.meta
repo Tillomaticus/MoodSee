@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 0d4641dc833f6364699a76c3f35ca775
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 303290
+  packageName: MoodMe Emotions Sentis SDK
+  packageVersion: 1.0
+  assetPath: Assets/MoodMe/BlazeFace/Prefabs/BoundingBox.prefab
+  uploadId: 713842

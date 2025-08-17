@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: d60baec53c417ae47b0de681e9a456d4
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 303290
+  packageName: MoodMe Emotions Sentis SDK
+  packageVersion: 1.0
+  assetPath: Assets/MoodMe/Prefabs/MoodMeEmotionsManager.prefab
+  uploadId: 713842

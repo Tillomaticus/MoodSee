@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: aefed65d634b9ca40bccd6d1196fc35b
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 303290
+  packageName: MoodMe Emotions Sentis SDK
+  packageVersion: 1.0
+  assetPath: Assets/MoodMe/BlazeFace/Materials/ground.mat
+  uploadId: 713842

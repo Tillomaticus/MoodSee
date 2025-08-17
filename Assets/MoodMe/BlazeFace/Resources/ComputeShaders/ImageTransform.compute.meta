@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 6845bfbc8c1f92d418243ec293491ca2
+ComputeShaderImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 303290
+  packageName: MoodMe Emotions Sentis SDK
+  packageVersion: 1.0
+  assetPath: Assets/MoodMe/BlazeFace/Resources/ComputeShaders/ImageTransform.compute
+  uploadId: 713842

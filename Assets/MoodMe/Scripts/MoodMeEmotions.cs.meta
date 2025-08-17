@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 58b449e0786c52f419b98e339e07e0fa
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 303290
+  packageName: MoodMe Emotions Sentis SDK
+  packageVersion: 1.0
+  assetPath: Assets/MoodMe/Scripts/MoodMeEmotions.cs
+  uploadId: 713842
