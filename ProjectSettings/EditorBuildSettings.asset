@@ -5,13 +5,14 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Scenes/SampleScene.unity
-    guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
+    path: Assets/Scenes/PCA Tryout.unity
+    guid: 6bf1cd08453811a459e57014908779ba
+  - enabled: 0
     path: Assets/Scenes/EmpathXR.unity
     guid: 0e8795ffcdf9f0f42a9ae164ef7f0063
   m_configObjects:
+    Unity.XR.Oculus.Settings: {fileID: 11400000, guid: b0deca86304114546861d98ee9fb7fea, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 76dc5f8b5fc7df44ba21ba95ee7fcbd0, type: 2}
     com.unity.xr.openxr.settings4: {fileID: 11400000, guid: 086927b8c30367d43beaef3e065a4b52, type: 2}
