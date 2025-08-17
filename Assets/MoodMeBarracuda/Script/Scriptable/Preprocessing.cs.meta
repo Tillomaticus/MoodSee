@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 7e90280a4e8ebdc458df9ed149e2e208
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 191930
+  packageName: MoodMe Emotions Barracuda SDK
+  packageVersion: 1.03
+  assetPath: Assets/MoodMeBarracuda/Script/Scriptable/Preprocessing.cs
+  uploadId: 685611

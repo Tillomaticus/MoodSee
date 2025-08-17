@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 58b449e0786c52f419b98e339e07e0fa
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 191930
+  packageName: MoodMe Emotions Barracuda SDK
+  packageVersion: 1.03
+  assetPath: Assets/MoodMeBarracuda/Script/Mono/MoodMeEmotions.cs
+  uploadId: 685611

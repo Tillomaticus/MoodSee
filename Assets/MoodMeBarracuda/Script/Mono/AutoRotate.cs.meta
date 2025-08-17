@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 13abf9b2b9994ee40a627cc81aa2b2a8
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 191930
+  packageName: MoodMe Emotions Barracuda SDK
+  packageVersion: 1.03
+  assetPath: Assets/MoodMeBarracuda/Script/Mono/AutoRotate.cs
+  uploadId: 685611

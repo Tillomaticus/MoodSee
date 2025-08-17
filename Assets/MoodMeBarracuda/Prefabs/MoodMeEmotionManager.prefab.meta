@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: fe505bf68e004b740b78d0c2edbe05c6
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 191930
+  packageName: MoodMe Emotions Barracuda SDK
+  packageVersion: 1.03
+  assetPath: Assets/MoodMeBarracuda/Prefabs/MoodMeEmotionManager.prefab
+  uploadId: 685611

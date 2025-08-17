@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 1003c61218737464693563b8cc640e59
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 191930
+  packageName: MoodMe Emotions Barracuda SDK
+  packageVersion: 1.03
+  assetPath: Assets/MoodMeBarracuda/Prefabs/NetworkAgent.prefab
+  uploadId: 685611

@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 081c7f6b546747e40999f683246dcf28
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 191930
+  packageName: MoodMe Emotions Barracuda SDK
+  packageVersion: 1.03
+  assetPath: Assets/MoodMeBarracuda/Scenes/Demo.unity
+  uploadId: 685611
