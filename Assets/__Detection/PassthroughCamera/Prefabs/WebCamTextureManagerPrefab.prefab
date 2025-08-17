@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Eye: 0
-  RequestedResolution: {x: 0, y: 0}
+  RequestedResolution: {x: 256, y: 256}
   CameraPermissions: {fileID: 7412840042211121785}
 --- !u!114 &7412840042211121785
 MonoBehaviour:
