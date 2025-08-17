@@ -16,7 +16,6 @@ public class WebRequesterDebug : MonoBehaviour
 
     [SerializeField] private string baseWebAddress; // https://vercel-backend-khuk1nas7-tillomaticus-projects.vercel.app
                                                     // http://localhost:3000
-    [SerializeField] private string sessionId;
 
     //[SerializeField]
    // private WebcamScreenshotCapture webcamCaptureControl;
@@ -181,7 +180,6 @@ public class WebRequesterDebug : MonoBehaviour
 
     private void AddHeaders(UnityWebRequest request)
     {
-        request.SetRequestHeader("sessionId", sessionId);
         foreach (Header header in headers)
         {
             request.SetRequestHeader(header.key, header.value);
