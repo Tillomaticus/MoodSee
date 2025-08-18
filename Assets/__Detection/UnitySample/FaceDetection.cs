@@ -3,9 +3,18 @@ using Unity.Mathematics;
 using Unity.InferenceEngine;
 using UnityEngine;
 using PassthroughCameraSamples;
+using UnityEngine.Events;
+
+
+[System.Serializable]
+public class FaceDetectedEvent : UnityEvent<Vector3> { }
+
 
 public class FaceDetection : MonoBehaviour
 {
+
+    public FaceDetectedEvent OnFaceDetected;
+
 
     public ModelAsset faceDetector;
     public TextAsset anchorsCSV;
@@ -112,6 +121,8 @@ public class FaceDetection : MonoBehaviour
 
         var numFaces = outputIndices.shape.length;
 
+
+    // TODO this is finding multiple faces, need to only take one.
         for (var i = 0; i < outputIndices.count; i++)
         {
             if (i >= numFaces)
@@ -133,6 +144,8 @@ public class FaceDetection : MonoBehaviour
 
             // Log face position
             Debug.Log($"Face {i} World Position: {faceWorldPos}");
+            OnFaceDetected.Invoke(faceWorldPos);
+
         }
 
         // if no faces are recognized then the awaitable outputs return synchronously so we need to add an extra frame await here to allow the main thread to run

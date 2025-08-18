@@ -6,7 +6,7 @@ public class UnsaidDetectionmanager : MonoBehaviour
 {
 
     [SerializeField]
-    GameObject FaceDetection;
+    FaceDetection FaceDetection;
 
     [SerializeField]
     WebCamTextureManager webCamTextureManager;
@@ -39,13 +39,21 @@ public class UnsaidDetectionmanager : MonoBehaviour
 
         Debug.Log("WebcamTexture populated, starting Face Detection");
         //if its initialized start FaceDetection
-        FaceDetection.SetActive(true);
+        FaceDetection.gameObject.SetActive(true);
+        FaceDetection.OnFaceDetected.AddListener(HandleFaceDetected);
     }
+
+    void HandleFaceDetected(Vector3 facePosition)
+    {
+        
+    }
+
 
     private void OnDestroy()
     {
         oVRPassthroughLayer.passthroughLayerResumed.RemoveListener(OnPassthroughLayerResumed);
         passthroughRunning = false;
+        FaceDetection.OnFaceDetected.RemoveListener(HandleFaceDetected);
     }
 
     // 2) OnPassthroughLayerResumed is called once the layer is fully initialized and passthrough is visible
