@@ -805,6 +805,7 @@ GameObject:
   - component: {fileID: 554446249}
   - component: {fileID: 554446248}
   - component: {fileID: 554446250}
+  - component: {fileID: 554446251}
   m_Layer: 0
   m_Name: FaceDetection
   m_TagString: Untagged
@@ -858,7 +859,7 @@ MonoBehaviour:
   faceDetector: {fileID: 5022602860645237092, guid: 22da40b9a667e0c45b835d1b46a5bd0a, type: 3}
   anchorsCSV: {fileID: 4900000, guid: 6d2c211e01624754497613450c4d3112, type: 3}
   iouThreshold: 0.3
-  scoreThreshold: 0.5
+  scoreThreshold: 0.9
   webCamTextureManager: {fileID: 740204974}
 --- !u!4 &554446249
 Transform:
@@ -887,6 +888,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d8affdff7ba47d892cc734baac9ac71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &554446251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 554446247}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7977a7c14672e84a871166de5effca2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  faceDetection: {fileID: 554446248}
+  minScoreThreshold: 0.5
+  step: 0.1
 --- !u!1 &668251477
 GameObject:
   m_ObjectHideFlags: 0
@@ -1801,7 +1817,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1548747445}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &1548747448
 Camera:
   m_ObjectHideFlags: 0
