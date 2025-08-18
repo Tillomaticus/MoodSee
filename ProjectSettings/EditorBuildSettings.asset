@@ -17,7 +17,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/PCA Emotion Recog Local.unity
     guid: e50d014ccf5cfd04786f49919b3d2e45
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/PCA Emotion Recog Local 1.unity
     guid: 75d9d3cfa7247bd4cb458bd42fb9876e
   m_configObjects:

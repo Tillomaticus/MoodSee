@@ -36,7 +36,7 @@ public class RoboflowCaller : MonoBehaviour
 
     [Header("Roboflow API Configuration")]
     [SerializeField] private string RF_MODEL = "emotion-57ymy/2"; // Model name for Roboflow
-    [SerializeField] private string LOCAL_SERVER_IP_ADDRESS = "http://192.168.0.190:9001"; // Local server URL for Roboflow
+    [SerializeField] private string LOCAL_SERVER_IP_ADDRESS = "https://192.168.0.190:9001"; // Local server URL for Roboflow
     private RoboflowInferenceClient client; // API client
 
     private Texture2D result; // Texture for resized images
