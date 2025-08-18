@@ -10,6 +10,14 @@ public class EmoticonSelector : MonoBehaviour
 
     public List<EmotionMapping> _emotions = new List<EmotionMapping>();
 
+    public static EmoticonSelector Instance;
+
+
+    void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+    }
 
 
     void Start()

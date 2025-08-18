@@ -181,12 +181,41 @@ public class WebRequester : MonoBehaviour
                 string jsonResponse = www.downloadHandler.text;
                 Debug.Log("Server: " + jsonResponse);
                 resultTextPanel.text = "Server: " + jsonResponse;
+
+                HandleEmotionResponse(jsonResponse);
                 readyForNewChatGPTPrompt = true;
             }
             yield return new WaitForSeconds(0.1f);
         }
     }
 
+
+    void HandleEmotionResponse(string response)
+    {
+        switch (response)
+        {
+            case "happy":
+                EmoticonSelector.Instance.changeEmotion(Emotion.Happy);
+                break;
+
+            case "neutral":
+                EmoticonSelector.Instance.changeEmotion(Emotion.Neutral);
+                break;
+
+            case "sad":
+                EmoticonSelector.Instance.changeEmotion(Emotion.Sad);
+                break;
+
+            case "angry":
+                EmoticonSelector.Instance.changeEmotion(Emotion.Angry);
+                break;
+
+            default:
+                     EmoticonSelector.Instance.changeEmotion(Emotion.Neutral);
+                break;
+
+        }
+    }
 
     IEnumerator SendChatMessage(string _message)
     {
