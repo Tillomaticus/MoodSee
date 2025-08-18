@@ -4,6 +4,7 @@ using Unity.InferenceEngine;
 using UnityEngine;
 using PassthroughCameraSamples;
 using UnityEngine.Events;
+using Meta.XR;
 
 
 [System.Serializable]
@@ -30,7 +31,15 @@ public class FaceDetection : MonoBehaviour
     [SerializeField]
     DebugCamera debugCamera;
 
+    [SerializeField]
+    Camera vrCamera;
+
+
+    Texture2D copiedTexture;
+
     public FaceDetectedEvent OnFaceDetected;
+
+    EnvironmentRaycastManager environmentRaycastManager;
 
 
     public ModelAsset faceDetector;
@@ -54,6 +63,16 @@ public class FaceDetection : MonoBehaviour
 
     float m_TextureWidth;
     float m_TextureHeight;
+
+
+    void Awake()
+    {
+        environmentRaycastManager = FindFirstObjectByType<EnvironmentRaycastManager>();
+        if (environmentRaycastManager == null)
+            Debug.LogWarning("No EnvironmentRaycastManager found in the scene!");
+
+    }
+
 
     public async void Start()
     {
@@ -114,7 +133,7 @@ public class FaceDetection : MonoBehaviour
         }
 
 
-        Texture texture = webCamTextureManager.WebCamTexture;
+        WebCamTexture texture = webCamTextureManager.WebCamTexture;
 
         m_TextureWidth = texture.width;
         m_TextureHeight = texture.height;
@@ -128,89 +147,176 @@ public class FaceDetection : MonoBehaviour
 
         m_FaceDetectorWorker.Schedule(m_DetectorInput);
 
-        var outputIndicesAwaitable = (m_FaceDetectorWorker.PeekOutput(0) as Tensor<int>).ReadbackAndCloneAsync();
-        var outputScoresAwaitable = (m_FaceDetectorWorker.PeekOutput(1) as Tensor<float>).ReadbackAndCloneAsync();
-        var outputBoxesAwaitable = (m_FaceDetectorWorker.PeekOutput(2) as Tensor<float>).ReadbackAndCloneAsync();
+        var indicesTensor = m_FaceDetectorWorker.PeekOutput(0) as Tensor<int>;
+        var scoresTensor = m_FaceDetectorWorker.PeekOutput(1) as Tensor<float>;
+        var boxesTensor = m_FaceDetectorWorker.PeekOutput(2) as Tensor<float>;
 
-        using var outputIndices = await outputIndicesAwaitable;
-        using var outputScores = await outputScoresAwaitable;
-        using var outputBoxes = await outputBoxesAwaitable;
-
-        var numFaces = outputIndices.shape.length;
-
-
-        // TODO this is finding multiple faces, need to only take one.
-        for (var i = 0; i < outputIndices.count; i++)
+        if (indicesTensor == null || scoresTensor == null || boxesTensor == null)
         {
-            if (i >= numFaces)
-                break;
-
-            var idx = outputIndices[i];
-
-
-            // Anchor in input image space
-            var anchorPosition = detectorInputSize * new float2(m_Anchors[idx, 0], m_Anchors[idx, 1]);
-
-            // Box params in image space
-            var xCenter = outputBoxes[0, i, 0];
-            var yCenter = outputBoxes[0, i, 1];
-            var boxW = outputBoxes[0, i, 2];
-            var boxH = outputBoxes[0, i, 3];
-
-            var boxCenter = BlazeUtils.mul(M, anchorPosition + new float2(xCenter, yCenter));
-
-            // Convert from center + size to Unity Rect
-            float x = boxCenter.x - boxW * 0.5f;
-            float y = boxCenter.y - boxH * 0.5f;
-            Rect faceRect = new Rect(x, y, boxW, boxH);
-
-            // Convert to world space (if needed for positioning objects)
-            var faceWorldPos = ImageToWorld(boxCenter);
-
-            // Crop face to new texture
-            Texture2D croppedFace = CropFace(texture, faceRect);
-            if (croppedFace == null)
-                Debug.LogError("cropped face is null!");
-            else
-                debugCamera.UpdateDebugTexture(croppedFace);
-
-            var detection = new FaceDetectionResult(faceWorldPos, new Vector2(boxW, boxH));
-
-            Debug.Log($"Face {i} at {faceWorldPos}, box size {boxW}x{boxH}, cropped texture {croppedFace.width}x{croppedFace.height}");
-            OnFaceDetected?.Invoke(detection);
-
+            Debug.LogWarning("[Detect] One or more output tensors are null. Skipping this frame.");
+            await Awaitable.NextFrameAsync();
+            return;
         }
 
-        // if no faces are recognized then the awaitable outputs return synchronously so we need to add an extra frame await here to allow the main thread to run
+        using var outputIndices = await indicesTensor.ReadbackAndCloneAsync();
+        using var outputScores = await scoresTensor.ReadbackAndCloneAsync();
+        using var outputBoxes = await boxesTensor.ReadbackAndCloneAsync();
+
+        var numFaces = outputIndices.shape.length;
+        Debug.Log($"[Detect] Number of detected faces: {numFaces}");
+
+
+
         if (numFaces == 0)
+        {
+            Debug.Log("No faces detected");
             await Awaitable.NextFrameAsync();
+            return;
+        }
+
+
+        // Find the face with the highest score
+        int dominantFaceIndex = 0;
+        float maxScore = float.MinValue;
+
+        for (int i = 0; i < outputIndices.count && i < numFaces; i++)
+        {
+            float score = outputScores[0, i, 0]; // adjust if your tensor shape is different
+            if (score > maxScore)
+            {
+                maxScore = score;
+                dominantFaceIndex = i;
+            }
+        }
+
+        Debug.Log($"[Detect] Dominant face index: {dominantFaceIndex}, score: {maxScore}");
+
+
+        // Use only the dominant face
+        var idx = outputIndices[dominantFaceIndex];
+
+
+        // Anchor in input image space
+        var anchorPosition = detectorInputSize * new float2(m_Anchors[idx, 0], m_Anchors[idx, 1]);
+
+        // Box parameters
+        var xCenter = outputBoxes[0, dominantFaceIndex, 0];
+        var yCenter = outputBoxes[0, dominantFaceIndex, 1];
+        var boxW = outputBoxes[0, dominantFaceIndex, 2];
+        var boxH = outputBoxes[0, dominantFaceIndex, 3];
+
+        var boxCenter = BlazeUtils.mul(M, anchorPosition + new float2(xCenter, yCenter));
+
+        Debug.Log($"[Detect] Debug after boxCenter");
+
+        // Convert to world space using Meta Passthrough + environment raycast
+        Vector3 faceWorldPos;
+        Quaternion faceRotation = Quaternion.identity;
+
+        // Convert boxCenter (image space) to integer screen point
+        var cameraScreenPoint = new Vector2Int((int)boxCenter.x, (int)boxCenter.y);
+
+        // Create a ray from the passthrough camera
+        var ray = PassthroughCameraUtils.ScreenPointToRayInWorld(PassthroughCameraEye.Left, cameraScreenPoint);
+
+        Debug.Log($"[Detect] Debug after ray");
+
+
+
+        // Raycast against environment mesh
+        if (environmentRaycastManager.Raycast(ray, out EnvironmentRaycastHit hitInfo))
+        {
+            faceWorldPos = hitInfo.point;
+            faceRotation = Quaternion.LookRotation(hitInfo.normal, Vector3.up);
+        }
+        else
+        {
+            // Fallback: 2 units in front of the camera
+            faceWorldPos = vrCamera.transform.position + vrCamera.transform.forward * 2f;
+        }
+
+
+
+        Debug.Log($"[Detect] Debug before Rect");
+        // Convert to Rect for cropping
+        float x = boxCenter.x - boxW * 0.5f;
+        float y = boxCenter.y - boxH * 0.5f;
+        Rect faceRect = new Rect(x, y, boxW, boxH);
+
+        // Crop face
+        //Texture2D croppedFace = CropFace(texture, faceRect);
+        //
+
+
+        Debug.Log($"[Detect] Debug before Copy");
+        CopyWebCamTexture(texture);
+
+        Debug.Log($"[Detect] Debug before Update");
+        if (copiedTexture == null || debugCamera == null)
+        {
+            Debug.Log("[Detect] Copied Texture or Debug Camera is null");
+        }
+        else
+            debugCamera.UpdateDebugTexture(copiedTexture);
+
+        Debug.Log($"[Detect] Debug after Copy");
+        // Invoke event with dominant face
+        var detection = new FaceDetectionResult(faceWorldPos, new Vector2(boxW, boxH));
+        OnFaceDetected?.Invoke(detection);
+
+        Debug.Log($"Dominant face at {faceWorldPos}, box size {boxW}x{boxH},"); //cropped texture {croppedFace.width}x{croppedFace.height}");
+
     }
+
+    void CopyWebCamTexture(WebCamTexture  webCamTex)
+    {
+        if (webCamTex == null || !webCamTex.isPlaying)
+            return ;
+
+        Texture2D tex2D = new Texture2D(webCamTex.width, webCamTex.height, TextureFormat.RGB24, false);
+        tex2D.SetPixels(webCamTex.GetPixels());
+        tex2D.Apply();
+        copiedTexture = tex2D;
+    }
+
 
     // Utility: crop a face into a new Texture2D
     Texture2D CropFace(Texture source, Rect faceRect)
     {
+        if (source == null || source.width == 0 || source.height == 0)
+            return null;
+
         // Clamp rect inside source bounds
-        int x = Mathf.Clamp((int)faceRect.x, 0, source.width - 1);
-        int y = Mathf.Clamp((int)faceRect.y, 0, source.height - 1);
-        int w = Mathf.Clamp((int)faceRect.width, 1, source.width - x);
-        int h = Mathf.Clamp((int)faceRect.height, 1, source.height - y);
+        int x = Mathf.Clamp(Mathf.FloorToInt(faceRect.x), 0, source.width - 1);
+        int y = Mathf.Clamp(Mathf.FloorToInt(faceRect.y), 0, source.height - 1);
+        int w = Mathf.Clamp(Mathf.FloorToInt(faceRect.width), 1, source.width - x);
+        int h = Mathf.Clamp(Mathf.FloorToInt(faceRect.height), 1, source.height - y);
 
-        // Create a temporary RT exactly the size of the face
-        RenderTexture rt = RenderTexture.GetTemporary(w, h, 0, RenderTextureFormat.Default, RenderTextureReadWrite.Linear);
+        if (w <= 0 || h <= 0)
+            return null;
 
-        // Copy only that region
+        // Create a temporary RenderTexture the size of the full source
+        RenderTexture rt = RenderTexture.GetTemporary(source.width, source.height, 0, RenderTextureFormat.Default, RenderTextureReadWrite.Linear);
         Graphics.Blit(source, rt);
 
-        // Activate and read
+        // Activate RT and read full source
         RenderTexture prev = RenderTexture.active;
         RenderTexture.active = rt;
 
+        Texture2D sourceTex2D = new Texture2D(source.width, source.height, TextureFormat.RGB24, false);
+        sourceTex2D.ReadPixels(new Rect(0, 0, source.width, source.height), 0, 0);
+        sourceTex2D.Apply();
+
+        // Extract the cropped pixels
+        Color[] pixels = sourceTex2D.GetPixels(x, y, w, h);
         Texture2D faceTex = new Texture2D(w, h, TextureFormat.RGB24, false);
-        faceTex.ReadPixels(new Rect(x, y, w, h), 0, 0);
+        faceTex.SetPixels(pixels);
         faceTex.Apply();
 
+        // Cleanup
         RenderTexture.active = prev;
         RenderTexture.ReleaseTemporary(rt);
+        UnityEngine.Object.Destroy(sourceTex2D);
 
         return faceTex;
     }
