@@ -8,11 +8,12 @@ public class UpdatePositionScript : MonoBehaviour
 
     public void UpdatePosition(FaceDetectionResult result)
     {
-        if(result.isEmpty)
-            HideFaceMarker();
+        if (result.isEmpty)
+            ;
+        //     HideFaceMarker();
         else
         {
-            ShowFaceMarker();
+          //  ShowFaceMarker();
             this.transform.position = result.worldPosition;
             EmoticonChanger.transform.position = result.worldPosition + new Vector3(0, (result.worldPosition.y + result.imageSize.y / 2), 0);
             EmoticonChanger.transform.rotation = Quaternion.LookRotation(centerEyeAnchor.transform.position - EmoticonChanger.transform.position);
