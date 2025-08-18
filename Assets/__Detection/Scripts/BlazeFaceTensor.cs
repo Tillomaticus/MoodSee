@@ -82,9 +82,10 @@ public class BlazeFaceTensor : MonoBehaviour
 
     private async Awaitable Detect()
     {
-        Texture texture = webCamTextureManager.WebCamTexture;
-        if (texture == null)
+        if (webCamTextureManager?.WebCamTexture == null)
             return;
+
+        Texture texture = webCamTextureManager.WebCamTexture;
 
         float texWidth = texture.width;
         float texHeight = texture.height;

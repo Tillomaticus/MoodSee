@@ -11,9 +11,12 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/EmpathXR.unity
     guid: 0e8795ffcdf9f0f42a9ae164ef7f0063
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/MetaQuestSample.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Scenes/PCA Emotion Recog Local.unity
+    guid: e50d014ccf5cfd04786f49919b3d2e45
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: b0deca86304114546861d98ee9fb7fea, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
