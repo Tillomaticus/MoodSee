@@ -19,20 +19,37 @@ public class FaceDetectionThresholdAdjuster : MonoBehaviour
 
     void Update()
     {
+
         // "A" button increases threshold
         if (OVRInput.GetDown(OVRInput.Button.One)) // Button.One = A button
         {
-            minScoreThreshold = Mathf.Clamp(minScoreThreshold + step, 0f, 1f);
-            Debug.Log($"Threshold increased: {minScoreThreshold:F2}");
-            faceDetection.scoreThreshold = minScoreThreshold;
+            UpdatePositionScript.Instance.lerpSpeed += 0.1f;
+            Debug.Log("LerpSpeed " + UpdatePositionScript.Instance.lerpSpeed);
+
         }
 
         // "B" button decreases threshold
         if (OVRInput.GetDown(OVRInput.Button.Two)) // Button.Two = B button
         {
-            minScoreThreshold = Mathf.Clamp(minScoreThreshold - step, 0f, 1f);
-            Debug.Log($"Threshold decreased: {minScoreThreshold:F2}");
-             faceDetection.scoreThreshold = minScoreThreshold;
+            UpdatePositionScript.Instance.lerpSpeed -= 0.1f;
+            Debug.Log("LerpSpeed " + UpdatePositionScript.Instance.lerpSpeed);
+
         }
+
+        // // "A" button increases threshold
+        // if (OVRInput.GetDown(OVRInput.Button.One)) // Button.One = A button
+        // {
+        //     minScoreThreshold = Mathf.Clamp(minScoreThreshold + step, 0f, 1f);
+        //     Debug.Log($"Threshold increased: {minScoreThreshold:F2}");
+        //     faceDetection.scoreThreshold = minScoreThreshold;
+        // }
+
+        // // "B" button decreases threshold
+        // if (OVRInput.GetDown(OVRInput.Button.Two)) // Button.Two = B button
+        // {
+        //     minScoreThreshold = Mathf.Clamp(minScoreThreshold - step, 0f, 1f);
+        //     Debug.Log($"Threshold decreased: {minScoreThreshold:F2}");
+        //      faceDetection.scoreThreshold = minScoreThreshold;
+        // }
     }
 }
