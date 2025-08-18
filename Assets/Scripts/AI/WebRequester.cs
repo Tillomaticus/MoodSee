@@ -13,6 +13,13 @@ using System.Net;
 
 public class WebRequester : MonoBehaviour
 {
+
+    [System.Serializable]
+    public class EmotionResponse
+    {
+        public string emotion;
+    }
+
     // Konstante für den "HelloWorld" Endpoint
     private const string ENDPOINT_HELLOWORLD = "/api/helloworld";
     private const string ENDPOINT_PROCESS_FACE = "/api/processFace";
@@ -158,11 +165,11 @@ public class WebRequester : MonoBehaviour
     IEnumerator GetExpressionFromImage(string _imageBase64Encoded)
     {
 
-     //   Debug.Log("image64 " + _imageBase64Encoded);
+        //   Debug.Log("image64 " + _imageBase64Encoded);
 
         // Create a JSON object manually in the same style that worked before
         string jsonMessage = $"{{ \"image_base64\": \"{_imageBase64Encoded}\" }}";
-     //   Debug.Log("jsonMessage: " + jsonMessage);
+        //   Debug.Log("jsonMessage: " + jsonMessage);
 
         using (UnityWebRequest www = UnityWebRequest.Post(baseWebAddress + ENDPOINT_PROCESS_FACE, jsonMessage, "application/json"))
         {
@@ -172,14 +179,14 @@ public class WebRequester : MonoBehaviour
 
             if (www.result != UnityWebRequest.Result.Success)
             {
-             //   Debug.LogError(www.error);
+                //   Debug.LogError(www.error);
                 resultTextPanel.text = "Error: " + www.error;
                 readyForNewChatGPTPrompt = true;
             }
             else
             {
                 string jsonResponse = www.downloadHandler.text;
-           //     Debug.Log("Server: " + jsonResponse);
+            //    Debug.Log("Server: " + jsonResponse);
 
                 HandleEmotionResponse(jsonResponse);
                 readyForNewChatGPTPrompt = true;
@@ -191,7 +198,16 @@ public class WebRequester : MonoBehaviour
 
     void HandleEmotionResponse(string response)
     {
-        switch (response)
+        EmotionResponse emotionResponse = JsonUtility.FromJson<EmotionResponse>(response);
+
+        if (emotionResponse == null || string.IsNullOrEmpty(emotionResponse.emotion))
+        {
+            Debug.LogWarning("Invalid emotion response: " + response);
+            EmoticonSelector.Instance.changeEmotion(Emotion.Neutral);
+            return;
+        }
+
+        switch (emotionResponse.emotion.ToLower())
         {
             case "happy":
                 EmoticonSelector.Instance.changeEmotion(Emotion.Happy);
@@ -210,7 +226,7 @@ public class WebRequester : MonoBehaviour
                 break;
 
             default:
-                     EmoticonSelector.Instance.changeEmotion(Emotion.Neutral);
+                EmoticonSelector.Instance.changeEmotion(Emotion.Neutral);
                 break;
 
         }

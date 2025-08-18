@@ -32,6 +32,7 @@ public class EmoticonSelector : MonoBehaviour
     }
     public void changeEmotion(Emotion emotion)
     {
+       // Debug.Log("changing to " + emotion);
         _currentEmotion = emotion;
         hideObjects();
         foreach (var mapping in _emotions)
