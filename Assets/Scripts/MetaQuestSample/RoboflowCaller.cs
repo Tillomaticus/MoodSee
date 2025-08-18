@@ -5,6 +5,9 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 using Meta.XR;
+using Newtonsoft.Json;
+using System.Text;
+using System.IO;
 
 /// <summary>
 /// Handles webcam streaming, sending frames to Roboflow,
@@ -39,6 +42,12 @@ public class RoboflowCaller : MonoBehaviour
     private Texture2D result; // Texture for resized images
     private const int targetWidth = 512; // Target width for resized images
     private const int targetHeight = 512; // Target height for resized images
+
+
+    // 1. A list to store the responses between calls
+    private List<string> collectedResponses = new List<string>();
+    // 2. The maximum number of responses you want to save
+    private const int MaxResponsesToCollect = 10;
 
     private void Start()
     {
@@ -162,14 +171,62 @@ public class RoboflowCaller : MonoBehaviour
         if (response.Predictions != null && response.Predictions.Count > 0)
         {
             foreach (var pred in response.Predictions)
-                Debug.Log($"Detected {pred.Class} at ({pred.X},{pred.Y}) confidence: {pred.Confidence}");
+            { 
+                Debug.Log($"Detected {pred.Class} at ({pred.X},{pred.Y}) confidence: {pred.Confidence}"); 
+                collectedResponses.Add(pred.Class);
+
+            }
             renderDetections(response.Predictions);
         }
         else
         {
             Debug.Log("No predictions found.");
         }
+        // Check if we have collected enough responses
+        if (collectedResponses.Count >= MaxResponsesToCollect)
+        {
+            //SaveResponsesToFile();
+
+            // Clear the list to start collecting the next batch of 20
+            collectedResponses.Clear();
+        }
     }
+
+    /*private void SaveResponsesToFile()
+    {
+        // Use a StringBuilder for efficient string construction
+        var csvBuilder = new StringBuilder();
+        // 1. Add the header row
+        csvBuilder.AppendLine("ResponseIndex,PredictionIndex,Class,X,Y,Confidence");
+        // 2. Loop through each response and its predictions
+        for (int i = 0; i < collectedResponses.Count; i++)
+        {
+            var response = collectedResponses[i];
+            if (response.Predictions != null)
+            {
+                for (int j = 0; j < response.Predictions.Count; j++)
+                {
+                    var pred = response.Predictions[j];
+                    // Create a new line with the data
+                    string line = $"{i},{j},{pred.Class},{pred.X},{pred.Y},{pred.Confidence}";
+                    csvBuilder.AppendLine(line);
+                }
+            }
+        }
+
+        // 3. Define a path and save the file
+        try
+        {
+            string filePath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments), "detection_responses.csv");
+            File.WriteAllText(filePath, csvBuilder.ToString());
+            Debug.Log($"Successfully saved {MaxResponsesToCollect} responses to: {filePath}");
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogError($"Failed to save responses as CSV: {ex.Message}");
+        }
+    }*/
+
 
     /// <summary>
     /// Clears all previously tracked markers.
