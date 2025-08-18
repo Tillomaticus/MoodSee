@@ -2255,16 +2255,19 @@ MonoBehaviour:
   CenterEyeAnchor: {fileID: 1427055291}
   _markerPrefab: {fileID: 4598129501795045920, guid: cbfa891859958b241a7f04fa184fecdc, type: 3}
   rfClassNames:
-  - Face
+  - Unlabeled
   - angry
-  - face
+  - confused
+  - disgusted
+  - fear
   - happy
   - neutral
   - sad
-  - surprise
-  rfClassIds: 00000000010000000200000003000000040000000500000006000000
+  - shy
+  - surprised
+  rfClassIds: 00000000010000000200000003000000040000000500000006000000070000000800000009000000
   minConfidence: 0.76
-  RF_MODEL: emotion-detection-ueyvk/1
+  RF_MODEL: emotion-recognition-5ohyf/2
   LOCAL_SERVER_IP_ADDRESS: http://192.168.0.190:9001
 --- !u!4 &1498238869
 Transform:
