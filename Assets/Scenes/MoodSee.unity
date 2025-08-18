@@ -607,6 +607,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EmoticonChanger: {fileID: 680130623}
+  centerEyeAnchor: {fileID: 510539541}
 --- !u!4 &363418399
 Transform:
   m_ObjectHideFlags: 0

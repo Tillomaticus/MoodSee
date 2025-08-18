@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 4a4315fc7e4b15c4aae990ac888c35b0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8c30cbc5262ed184b9f08a2136199f14, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -250,7 +250,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 4a4315fc7e4b15c4aae990ac888c35b0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4410d058951e7bc4e896bd75ac584221, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -337,7 +337,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 4a4315fc7e4b15c4aae990ac888c35b0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9d429de6cdd28324ba07876a9fad244a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -399,10 +399,10 @@ MonoBehaviour:
   _currentEmotion: 0
   _emotions:
   - emotionType: 0
-    emotionPrefab: {fileID: 0}
+    emotionPrefab: {fileID: 7066075452754321644}
   - emotionType: 1
     emotionPrefab: {fileID: 5035861189554980138}
   - emotionType: 2
-    emotionPrefab: {fileID: 0}
+    emotionPrefab: {fileID: 5816126873405498157}
   - emotionType: 3
-    emotionPrefab: {fileID: 0}
+    emotionPrefab: {fileID: 2124136683602698119}
