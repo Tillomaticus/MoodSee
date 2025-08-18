@@ -1,14 +1,11 @@
 using UnityEngine;
 using PassthroughCameraSamples;
-using PassthroughCameraSamples.MultiObjectDetection;
 
 public class EmotionDetectionManager : MonoBehaviour
 {
 
     [SerializeField] private WebCamTextureManager m_webCamTextureManager;
 
-    [Header("Sentis inference ref")]
-    [SerializeField] private SentisInferenceRunManager m_runInference;
 
     private bool isPaused = true;
     private float delayPauseBackTime = 0;
@@ -34,12 +31,6 @@ public class EmotionDetectionManager : MonoBehaviour
                 delayPauseBackTime = 0.1f;
             }
             return;
-        }
-
-        // Run a new inference when the current inference finishes
-        if (!m_runInference.IsRunning())
-        {
-            m_runInference.RunInference(m_webCamTextureManager.WebCamTexture);
         }
     }
 }
