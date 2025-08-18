@@ -43,7 +43,7 @@ public class UnsaidDetectionmanager : MonoBehaviour
         FaceDetection.OnFaceDetected.AddListener(HandleFaceDetected);
     }
 
-    void HandleFaceDetected(Vector3 facePosition)
+    void HandleFaceDetected(FaceDetectionResult facePosition)
     {
         
     }

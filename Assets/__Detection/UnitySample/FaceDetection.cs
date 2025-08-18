@@ -7,11 +7,28 @@ using UnityEngine.Events;
 
 
 [System.Serializable]
-public class FaceDetectedEvent : UnityEvent<Vector3> { }
+public struct FaceDetectionResult
+{
+    public Vector3 worldPosition;  // center of the face in world space
+    public Vector2 imageSize;      // width/height of the face in image space
+
+    public FaceDetectionResult(Vector3 pos, Vector2 size)
+    {
+        worldPosition = pos;
+        imageSize = size;
+    }
+}
+
+[System.Serializable]
+public class FaceDetectedEvent : UnityEvent<FaceDetectionResult> { }
 
 
 public class FaceDetection : MonoBehaviour
 {
+
+
+    [SerializeField]
+    DebugCamera debugCamera;
 
     public FaceDetectedEvent OnFaceDetected;
 
@@ -122,7 +139,7 @@ public class FaceDetection : MonoBehaviour
         var numFaces = outputIndices.shape.length;
 
 
-    // TODO this is finding multiple faces, need to only take one.
+        // TODO this is finding multiple faces, need to only take one.
         for (var i = 0; i < outputIndices.count; i++)
         {
             if (i >= numFaces)
@@ -130,21 +147,37 @@ public class FaceDetection : MonoBehaviour
 
             var idx = outputIndices[i];
 
-            // Anchor position in input image space
+
+            // Anchor in input image space
             var anchorPosition = detectorInputSize * new float2(m_Anchors[idx, 0], m_Anchors[idx, 1]);
 
-            // Face center in image space
-            var box_ImageSpace = BlazeUtils.mul(M, anchorPosition + new float2(
-                outputBoxes[0, i, 0],
-                outputBoxes[0, i, 1]
-            ));
+            // Box params in image space
+            var xCenter = outputBoxes[0, i, 0];
+            var yCenter = outputBoxes[0, i, 1];
+            var boxW = outputBoxes[0, i, 2];
+            var boxH = outputBoxes[0, i, 3];
 
-            // Convert to world space
-            var faceWorldPos = ImageToWorld(box_ImageSpace);
+            var boxCenter = BlazeUtils.mul(M, anchorPosition + new float2(xCenter, yCenter));
 
-            // Log face position
-            Debug.Log($"Face {i} World Position: {faceWorldPos}");
-            OnFaceDetected.Invoke(faceWorldPos);
+            // Convert from center + size to Unity Rect
+            float x = boxCenter.x - boxW * 0.5f;
+            float y = boxCenter.y - boxH * 0.5f;
+            Rect faceRect = new Rect(x, y, boxW, boxH);
+
+            // Convert to world space (if needed for positioning objects)
+            var faceWorldPos = ImageToWorld(boxCenter);
+
+            // Crop face to new texture
+            Texture2D croppedFace = CropFace(texture, faceRect);
+            if (croppedFace == null)
+                Debug.LogError("cropped face is null!");
+            else
+                debugCamera.UpdateDebugTexture(croppedFace);
+
+            var detection = new FaceDetectionResult(faceWorldPos, new Vector2(boxW, boxH));
+
+            Debug.Log($"Face {i} at {faceWorldPos}, box size {boxW}x{boxH}, cropped texture {croppedFace.width}x{croppedFace.height}");
+            OnFaceDetected?.Invoke(detection);
 
         }
 
@@ -152,6 +185,36 @@ public class FaceDetection : MonoBehaviour
         if (numFaces == 0)
             await Awaitable.NextFrameAsync();
     }
+
+    // Utility: crop a face into a new Texture2D
+    Texture2D CropFace(Texture source, Rect faceRect)
+    {
+        // Clamp rect inside source bounds
+        int x = Mathf.Clamp((int)faceRect.x, 0, source.width - 1);
+        int y = Mathf.Clamp((int)faceRect.y, 0, source.height - 1);
+        int w = Mathf.Clamp((int)faceRect.width, 1, source.width - x);
+        int h = Mathf.Clamp((int)faceRect.height, 1, source.height - y);
+
+        // Create a temporary RT exactly the size of the face
+        RenderTexture rt = RenderTexture.GetTemporary(w, h, 0, RenderTextureFormat.Default, RenderTextureReadWrite.Linear);
+
+        // Copy only that region
+        Graphics.Blit(source, rt);
+
+        // Activate and read
+        RenderTexture prev = RenderTexture.active;
+        RenderTexture.active = rt;
+
+        Texture2D faceTex = new Texture2D(w, h, TextureFormat.RGB24, false);
+        faceTex.ReadPixels(new Rect(x, y, w, h), 0, 0);
+        faceTex.Apply();
+
+        RenderTexture.active = prev;
+        RenderTexture.ReleaseTemporary(rt);
+
+        return faceTex;
+    }
+
 
     void OnDestroy()
     {

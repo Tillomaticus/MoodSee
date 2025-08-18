@@ -11,8 +11,8 @@ public class DebugCamera : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        Debug.Log("Start DebugCamera");
-       StartCoroutine(initCoroutine()); 
+     //   Debug.Log("Start DebugCamera");
+      //  StartCoroutine(initCoroutine());
     }
 
     private IEnumerator initCoroutine()
@@ -32,5 +32,10 @@ public class DebugCamera : MonoBehaviour
         {
             Debug.Log("Problem setting image");
         }
+    }
+
+    public void UpdateDebugTexture(Texture texture)
+    {
+          imageDisplay.texture = webCamTextureManager.WebCamTexture;
     }
 }
