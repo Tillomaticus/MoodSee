@@ -37,7 +37,7 @@ public class UnsaidDetectionmanager : MonoBehaviour
             yield return null;
 
 
-        Debug.Log("WebcamTexture populated, starting Face Detection");
+      //  Debug.Log("WebcamTexture populated, starting Face Detection");
         //if its initialized start FaceDetection
         FaceDetection.gameObject.SetActive(true);
        // FaceDetection.OnFaceDetected.AddListener(HandleFaceDetected);

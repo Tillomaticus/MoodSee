@@ -8,7 +8,7 @@ public class EmoticonSelector : MonoBehaviour
 
     [SerializeField] private Emotion _currentEmotion;
 
-   [SerializeField] private SpriteRenderer _coronaSpriteRenderer;
+    [SerializeField] private SpriteRenderer _coronaSpriteRenderer;
     public List<EmotionMapping> _emotions = new List<EmotionMapping>();
 
     public static EmoticonSelector Instance;
@@ -33,7 +33,7 @@ public class EmoticonSelector : MonoBehaviour
     }
     public void changeEmotion(Emotion emotion)
     {
-        // Debug.Log("changing to " + emotion);
+        Debug.Log("changing to " + emotion);
         _currentEmotion = emotion;
         hideObjects();
         foreach (var mapping in _emotions)

@@ -300,8 +300,6 @@ public class FaceDetection : MonoBehaviour
         var detection = new FaceDetectionResult(faceWorldPos, new Vector2(boxW, boxH), false);
         OnFaceDetected?.Invoke(detection);
 
-
-
         Debug.Log($"Dominant face at {faceWorldPos}, box size {boxW}x{boxH},"); //cropped texture {croppedFace.width}x{croppedFace.height}");
 
     }

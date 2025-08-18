@@ -30,7 +30,9 @@ public class UpdatePositionScript : MonoBehaviour
     public void UpdatePosition(FaceDetectionResult result)
     {
         if (result.isEmpty)
-            ;
+        {
+            Debug.Log("Result is empty");
+        }
         //     HideFaceMarker();
         else
         {
