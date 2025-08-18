@@ -158,11 +158,11 @@ public class WebRequester : MonoBehaviour
     IEnumerator GetExpressionFromImage(string _imageBase64Encoded)
     {
 
-        Debug.Log("image64 " + _imageBase64Encoded);
+     //   Debug.Log("image64 " + _imageBase64Encoded);
 
         // Create a JSON object manually in the same style that worked before
         string jsonMessage = $"{{ \"image_base64\": \"{_imageBase64Encoded}\" }}";
-        Debug.Log("jsonMessage: " + jsonMessage);
+     //   Debug.Log("jsonMessage: " + jsonMessage);
 
         using (UnityWebRequest www = UnityWebRequest.Post(baseWebAddress + ENDPOINT_PROCESS_FACE, jsonMessage, "application/json"))
         {
@@ -172,15 +172,14 @@ public class WebRequester : MonoBehaviour
 
             if (www.result != UnityWebRequest.Result.Success)
             {
-                Debug.LogError(www.error);
+             //   Debug.LogError(www.error);
                 resultTextPanel.text = "Error: " + www.error;
                 readyForNewChatGPTPrompt = true;
             }
             else
             {
                 string jsonResponse = www.downloadHandler.text;
-                Debug.Log("Server: " + jsonResponse);
-                resultTextPanel.text = "Server: " + jsonResponse;
+           //     Debug.Log("Server: " + jsonResponse);
 
                 HandleEmotionResponse(jsonResponse);
                 readyForNewChatGPTPrompt = true;

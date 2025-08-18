@@ -6,7 +6,7 @@ public class EmoticonSelector : MonoBehaviour
 {
     
 
-    [SerializeField] private Emotion _emotion;
+    [SerializeField] private Emotion _currentEmotion;
 
     public List<EmotionMapping> _emotions = new List<EmotionMapping>();
 
@@ -32,6 +32,7 @@ public class EmoticonSelector : MonoBehaviour
     }
     public void changeEmotion(Emotion emotion)
     {
+        _currentEmotion = emotion;
         hideObjects();
         foreach (var mapping in _emotions)
         {
