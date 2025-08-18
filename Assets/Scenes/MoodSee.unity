@@ -261,7 +261,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &171353252
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -606,6 +606,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b3027209b1378c4d80fc22571c34642, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EmoticonChanger: {fileID: 680130623}
 --- !u!4 &363418399
 Transform:
   m_ObjectHideFlags: 0
@@ -842,6 +843,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1917044521}
+        m_TargetAssemblyTypeName: UnsaidDetectionmanager, Assembly-CSharp
+        m_MethodName: HandleFaceDetected
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   faceDetector: {fileID: 5022602860645237092, guid: 22da40b9a667e0c45b835d1b46a5bd0a, type: 3}
   anchorsCSV: {fileID: 4900000, guid: 6d2c211e01624754497613450c4d3112, type: 3}
   iouThreshold: 0.3
@@ -892,7 +905,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &668251478
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1026,7 +1039,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3915499908905017091, guid: c38eece8df7cea74cb6d373c882a9a84, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3.1
+      value: 1.521
       objectReference: {fileID: 0}
     - target: {fileID: 3915499908905017091, guid: c38eece8df7cea74cb6d373c882a9a84, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1073,6 +1086,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c38eece8df7cea74cb6d373c882a9a84, type: 3}
+--- !u!1 &680130623 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8301165682884955986, guid: c38eece8df7cea74cb6d373c882a9a84, type: 3}
+  m_PrefabInstance: {fileID: 680130622}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &682451757
 GameObject:
   m_ObjectHideFlags: 0
@@ -1479,7 +1497,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1530781758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1564,14 +1582,14 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1530781757}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: 0.02708544, z: -0, w: 0.99963313}
   m_LocalPosition: {x: 0, y: 0, z: 5}
   m_LocalScale: {x: 0.02, y: 0.02, z: 0.02}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 842745257}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 3.104, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
@@ -1731,7 +1749,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1548747446
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1869,7 +1887,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1798446452
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2064,8 +2082,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1917044519}
-  - component: {fileID: 1917044518}
   - component: {fileID: 1917044520}
+  - component: {fileID: 1917044521}
   m_Layer: 0
   m_Name: DetectionManager
   m_TagString: Untagged
@@ -2073,21 +2091,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1917044518
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1917044517}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed28fe509778bf44c894ac02640fe62a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  FaceDetection: {fileID: 554446248}
-  webCamTextureManager: {fileID: 740204974}
-  oVRPassthroughLayer: {fileID: 171353252}
 --- !u!4 &1917044519
 Transform:
   m_ObjectHideFlags: 0
@@ -2123,6 +2126,21 @@ MonoBehaviour:
   inputField: {fileID: 0}
   sendButton: {fileID: 0}
   resultTextPanel: {fileID: 0}
+--- !u!114 &1917044521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1917044517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed28fe509778bf44c894ac02640fe62a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FaceDetection: {fileID: 554446248}
+  webCamTextureManager: {fileID: 740204974}
+  oVRPassthroughLayer: {fileID: 171353252}
 --- !u!1 &1924487851
 GameObject:
   m_ObjectHideFlags: 0

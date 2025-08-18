@@ -40,12 +40,13 @@ public class UnsaidDetectionmanager : MonoBehaviour
         Debug.Log("WebcamTexture populated, starting Face Detection");
         //if its initialized start FaceDetection
         FaceDetection.gameObject.SetActive(true);
-        FaceDetection.OnFaceDetected.AddListener(HandleFaceDetected);
+       // FaceDetection.OnFaceDetected.AddListener(HandleFaceDetected);
     }
 
-    void HandleFaceDetected(FaceDetectionResult facePosition)
+    public void HandleFaceDetected(FaceDetectionResult facePosition)
     {
-        
+        Debug.Log("[DetectionManager] FaceDetected, trying to capture");
+        WebRequester.Instance.OnCaptureImage(FaceDetection.CopiedTexture);
     }
 
 

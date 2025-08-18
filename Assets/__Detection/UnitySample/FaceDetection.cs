@@ -23,7 +23,6 @@ public struct FaceDetectionResult
 [System.Serializable]
 public class FaceDetectedEvent : UnityEvent<FaceDetectionResult> { }
 
-
 public class FaceDetection : MonoBehaviour
 {
 
@@ -289,6 +288,8 @@ public class FaceDetection : MonoBehaviour
         // Invoke event with dominant face
         var detection = new FaceDetectionResult(faceWorldPos, new Vector2(boxW, boxH));
         OnFaceDetected?.Invoke(detection);
+
+
 
         Debug.Log($"Dominant face at {faceWorldPos}, box size {boxW}x{boxH},"); //cropped texture {croppedFace.width}x{croppedFace.height}");
 

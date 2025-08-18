@@ -58,9 +58,15 @@ public class WebRequester : MonoBehaviour
     }
 
 
+    public static WebRequester Instance;
+
     void Awake()
     {
         ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
+        if (Instance == null)
+            Instance = this;
+
     }
 
     public void OnSendButtonClicked()
@@ -106,6 +112,10 @@ public class WebRequester : MonoBehaviour
         // StartCoroutine(StartSendImageProcess(texture));
     }
 
+/// <summary>
+///  Debug function for webcam
+/// </summary>
+/// <returns></returns>
     IEnumerator ContinousSend()
     {
         while (true)
@@ -124,6 +134,9 @@ public class WebRequester : MonoBehaviour
     public void OnCaptureImage(Texture2D texture)
     {
 
+        if (texture == null)
+            return;
+            
         if (!readyForNewChatGPTPrompt)
             return;
 
@@ -186,7 +199,7 @@ public class WebRequester : MonoBehaviour
             else
             {
                 string jsonResponse = www.downloadHandler.text;
-            //    Debug.Log("Server: " + jsonResponse);
+                Debug.Log("Server: " + jsonResponse);
 
                 HandleEmotionResponse(jsonResponse);
                 readyForNewChatGPTPrompt = true;
