@@ -5,19 +5,27 @@ using UnityEngine;
 using PassthroughCameraSamples;
 using UnityEngine.Events;
 using Meta.XR;
+using Unity.VisualScripting;
 
 
 [System.Serializable]
 public struct FaceDetectionResult
 {
+    public bool isEmpty;
     public Vector3 worldPosition;  // center of the face in world space
     public Vector2 imageSize;      // width/height of the face in image space
 
-    public FaceDetectionResult(Vector3 pos, Vector2 size)
+    public FaceDetectionResult(Vector3 pos, Vector2 size, bool isEmptyState)
     {
         worldPosition = pos;
         imageSize = size;
+        isEmpty = isEmptyState;
     }
+
+    public FaceDetectionResult(bool isEmptyState) : this(Vector3.zero, Vector2.zero, isEmptyState)
+    {
+    }
+
 }
 
 [System.Serializable]
@@ -167,13 +175,16 @@ public class FaceDetection : MonoBehaviour
         using var outputBoxes = await boxesTensor.ReadbackAndCloneAsync();
 
         var numFaces = outputIndices.shape.length;
-    //    Debug.Log($"[Detect] Number of detected faces: {numFaces}");
+        //    Debug.Log($"[Detect] Number of detected faces: {numFaces}");
 
 
 
         if (numFaces == 0)
         {
-      //      Debug.Log("No faces detected");
+            //      Debug.Log("No faces detected");,
+            //create empty detection result
+            var detectionResult = new FaceDetectionResult(true);
+            OnFaceDetected?.Invoke(detectionResult);
             await Awaitable.NextFrameAsync();
             return;
         }
@@ -193,7 +204,7 @@ public class FaceDetection : MonoBehaviour
             }
         }
 
-     //   Debug.Log($"[Detect] Dominant face index: {dominantFaceIndex}, score: {maxScore}");
+        //   Debug.Log($"[Detect] Dominant face index: {dominantFaceIndex}, score: {maxScore}");
 
 
         // Use only the dominant face
@@ -211,7 +222,7 @@ public class FaceDetection : MonoBehaviour
 
         var boxCenter = BlazeUtils.mul(M, anchorPosition + new float2(xCenter, yCenter));
 
-    //    Debug.Log($"[Detect] Debug after boxCenter");
+        //    Debug.Log($"[Detect] Debug after boxCenter");
 
         // Convert to world space using Meta Passthrough + environment raycast
         Vector3 faceWorldPos;
@@ -223,7 +234,7 @@ public class FaceDetection : MonoBehaviour
         // Create a ray from the passthrough camera
         var ray = PassthroughCameraUtils.ScreenPointToRayInWorld(PassthroughCameraEye.Left, cameraScreenPoint);
 
-    //    Debug.Log($"[Detect] Debug after ray");
+        //    Debug.Log($"[Detect] Debug after ray");
 
 
 
@@ -241,18 +252,18 @@ public class FaceDetection : MonoBehaviour
 
 
 
-    //    Debug.Log($"[Detect] Debug before Copy");
+        //    Debug.Log($"[Detect] Debug before Copy");
         CopyWebCamTexture(texture);
 
 
-    //    Debug.Log($"[Detect] Debug before Update");
+        //    Debug.Log($"[Detect] Debug before Update");
         if (CopiedTexture == null || debugCamera == null)
         {
             Debug.Log("[Detect] Copied Texture or Debug Camera is null");
         }
         else
         {
-   //         Debug.Log($"[Detect] Debug before Rect");
+            //         Debug.Log($"[Detect] Debug before Rect");
             // Detector box in detector input space
             float boxX = boxCenter.x - boxW * 0.5f; // top-left x
             float boxY = boxCenter.y - boxH * 0.5f; // top-left y
@@ -278,15 +289,15 @@ public class FaceDetection : MonoBehaviour
             Rect faceRect = new Rect(texX, texY, texW, texH);
 
             CroppedFace = CropFace(CopiedTexture, faceRect);
-    //        Debug.Log($"Cropped rect: x={faceRect.x}, y={faceRect.y}, w={faceRect.width}, h={faceRect.height}, source={CopiedTexture.width}x{CopiedTexture.height}");
+            //        Debug.Log($"Cropped rect: x={faceRect.x}, y={faceRect.y}, w={faceRect.width}, h={faceRect.height}, source={CopiedTexture.width}x{CopiedTexture.height}");
 
             debugCamera.UpdateDebugTexture(CroppedFace);
 
         }
 
-    //    Debug.Log($"[Detect] Debug after Copy");
+        //    Debug.Log($"[Detect] Debug after Copy");
         // Invoke event with dominant face
-        var detection = new FaceDetectionResult(faceWorldPos, new Vector2(boxW, boxH));
+        var detection = new FaceDetectionResult(faceWorldPos, new Vector2(boxW, boxH), false);
         OnFaceDetected?.Invoke(detection);
 
 
