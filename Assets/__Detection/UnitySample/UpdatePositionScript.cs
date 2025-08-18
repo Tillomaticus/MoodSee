@@ -18,6 +18,11 @@ public class UpdatePositionScript : MonoBehaviour
     Vector3 oldPosition;
 
 
+    //
+    [SerializeField]
+    Vector3 emojiOffset = new Vector3(0f,0.1f,0f);
+
+
 // just for debug purpose
     public static UpdatePositionScript Instance;
 
@@ -42,7 +47,7 @@ public class UpdatePositionScript : MonoBehaviour
             //positioning for first time
             if (oldPosition == Vector3.zero)
             {
-                EmoticonChanger.transform.position = result.worldPosition + new Vector3(0, (result.worldPosition.y + result.imageSize.y / 2), 0);
+                EmoticonChanger.transform.position = result.worldPosition + emojiOffset;
                 oldPosition = EmoticonChanger.transform.position;
             }
             else
@@ -52,7 +57,7 @@ public class UpdatePositionScript : MonoBehaviour
                     StopCoroutine(positionLerpCoroutine);
 
                 // start a new coroutine and keep lerping towards target
-                positionLerpCoroutine = StartCoroutine(UpdatePositionLerped(result.worldPosition + new Vector3(0, (result.worldPosition.y + result.imageSize.y / 2), 0)));
+                positionLerpCoroutine = StartCoroutine(UpdatePositionLerped(result.worldPosition + emojiOffset));
             }
 
             Debug.Log("Result y: " + result.worldPosition.y + " size " + result.imageSize.y);

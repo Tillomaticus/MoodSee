@@ -23,7 +23,7 @@ public class FaceDetectionThresholdAdjuster : MonoBehaviour
         // "A" button increases threshold
         if (OVRInput.GetDown(OVRInput.Button.One)) // Button.One = A button
         {
-            UpdatePositionScript.Instance.lerpSpeed += 0.1f;
+            UpdatePositionScript.Instance.lerpSpeed += 1f;
             Debug.Log("LerpSpeed " + UpdatePositionScript.Instance.lerpSpeed);
 
         }
@@ -31,7 +31,7 @@ public class FaceDetectionThresholdAdjuster : MonoBehaviour
         // "B" button decreases threshold
         if (OVRInput.GetDown(OVRInput.Button.Two)) // Button.Two = B button
         {
-            UpdatePositionScript.Instance.lerpSpeed -= 0.1f;
+            UpdatePositionScript.Instance.lerpSpeed -= 1f;
             Debug.Log("LerpSpeed " + UpdatePositionScript.Instance.lerpSpeed);
 
         }

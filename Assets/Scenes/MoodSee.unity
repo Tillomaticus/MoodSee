@@ -545,8 +545,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EmoticonChanger: {fileID: 680130623}
-  centerEyeAnchor: {fileID: 1548747445}
-  lerpSpeed: 5
+  centerEyeAnchor: {fileID: 510539541}
+  lerpSpeed: 0.5
+  emojiOffset: {x: 0, y: 0.15, z: 0}
 --- !u!4 &363418399
 Transform:
   m_ObjectHideFlags: 0
@@ -951,18 +952,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3915499908905017091, guid: c38eece8df7cea74cb6d373c882a9a84, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 3915499908905017091, guid: c38eece8df7cea74cb6d373c882a9a84, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 3915499908905017091, guid: c38eece8df7cea74cb6d373c882a9a84, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 100
-      objectReference: {fileID: 0}
     - target: {fileID: 3915499908905017091, guid: c38eece8df7cea74cb6d373c882a9a84, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
