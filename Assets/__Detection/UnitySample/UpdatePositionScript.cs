@@ -13,11 +13,19 @@ public class UpdatePositionScript : MonoBehaviour
         //     HideFaceMarker();
         else
         {
-          //  ShowFaceMarker();
+            //  ShowFaceMarker();
             this.transform.position = result.worldPosition;
+            Debug.Log("Result y: " + result.worldPosition.y + " size " + result.imageSize.y);
             EmoticonChanger.transform.position = result.worldPosition + new Vector3(0, (result.worldPosition.y + result.imageSize.y / 2), 0);
-            EmoticonChanger.transform.rotation = Quaternion.LookRotation(centerEyeAnchor.transform.position - EmoticonChanger.transform.position);
+            Vector3 direction = EmoticonChanger.transform.position - centerEyeAnchor.transform.position ;
+            EmoticonChanger.transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
         }
+    }
+
+    void Update()
+    {
+        Vector3 direction = EmoticonChanger.transform.position - centerEyeAnchor.transform.position ;
+        EmoticonChanger.transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
     }
 
 

@@ -7,4 +7,6 @@ public class EmotionMapping
 {
     public Emotion emotionType;
     public GameObject emotionPrefab;
+
+    public Color coronaColor;
 }
