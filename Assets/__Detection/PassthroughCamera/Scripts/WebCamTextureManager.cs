@@ -84,6 +84,7 @@ namespace PassthroughCameraSamples
 
         private IEnumerator InitializeWebCamTexture()
         {
+            Debug.Log("initializing WebcamTexture");
             // Check if Passhtrough is present in the scene and is enabled
             var ptLayer = FindAnyObjectByType<OVRPassthroughLayer>();
             if (ptLayer == null || !PassthroughCameraUtils.IsPassthroughEnabled())
@@ -100,6 +101,7 @@ namespace PassthroughCameraSamples
 
             while (true)
             {
+                 Debug.Log("in Webcam While");
                 var devices = WebCamTexture.devices;
                 if (PassthroughCameraUtils.EnsureInitialized() && PassthroughCameraUtils.CameraEyeToCameraIdMap.TryGetValue(Eye, out var cameraData))
                 {
@@ -124,7 +126,12 @@ namespace PassthroughCameraSamples
                         }
                         WebCamTexture = webCamTexture;
                         PCD.DebugMessage(LogType.Log, $"WebCamTexture created, texturePtr: {WebCamTexture.GetNativeTexturePtr()}, size: {WebCamTexture.width}/{WebCamTexture.height}");
+                        Debug.Log("all good");
                         yield break;
+                    }
+                    else
+                    {
+                         Debug.Log("weird else");
                     }
                 }
 
