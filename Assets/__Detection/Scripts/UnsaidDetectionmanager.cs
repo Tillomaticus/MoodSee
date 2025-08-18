@@ -66,25 +66,13 @@ public class UnsaidDetectionmanager : MonoBehaviour
 
 
 
-    void TryGetFace()
+    void TryGetEmotion()
     {
 
         //early out when no passthrough available
         if (!passthroughRunning)
             return;
 
-       /* Texture2D faceImage = blazeFaceTensor.LatestCroppedFaceImage;
 
-        Debug.Log("running");
-
-
-        if (faceImage == null)
-        {
-            Debug.Log("No face found");
-        }
-        else
-        {
-             Debug.Log("Face found and cropped");
-        } */
     }
 }

@@ -35,7 +35,12 @@ public class FaceDetection : MonoBehaviour
     Camera vrCamera;
 
 
-    Texture2D copiedTexture;
+    public Texture2D CopiedTexture { get; private set; }
+    public Texture2D CroppedFace { get; private set; }
+
+    [SerializeField] int croppedTargetWidth = 226;
+    [SerializeField] int croppedTargetHeight = 226;
+
 
     public FaceDetectedEvent OnFaceDetected;
 
@@ -237,27 +242,48 @@ public class FaceDetection : MonoBehaviour
 
 
 
-        Debug.Log($"[Detect] Debug before Rect");
-        // Convert to Rect for cropping
-        float x = boxCenter.x - boxW * 0.5f;
-        float y = boxCenter.y - boxH * 0.5f;
-        Rect faceRect = new Rect(x, y, boxW, boxH);
-
-        // Crop face
-        //Texture2D croppedFace = CropFace(texture, faceRect);
-        //
-
-
         Debug.Log($"[Detect] Debug before Copy");
         CopyWebCamTexture(texture);
 
+
         Debug.Log($"[Detect] Debug before Update");
-        if (copiedTexture == null || debugCamera == null)
+        if (CopiedTexture == null || debugCamera == null)
         {
             Debug.Log("[Detect] Copied Texture or Debug Camera is null");
         }
         else
-            debugCamera.UpdateDebugTexture(copiedTexture);
+        {
+            Debug.Log($"[Detect] Debug before Rect");
+            // Detector box in detector input space
+            float boxX = boxCenter.x - boxW * 0.5f; // top-left x
+            float boxY = boxCenter.y - boxH * 0.5f; // top-left y
+            float boxWidth = boxW;
+            float boxHeight = boxH;
+
+            // Scale to the full webcam texture
+            float scaleX = (float)CopiedTexture.width / detectorInputSize;
+            float scaleY = (float)CopiedTexture.height / detectorInputSize;
+
+            // boxCenter is in CopiedTexture pixel coordinates already
+            float texX = boxCenter.x - (boxW * scaleX * 0.5f);
+            float texY = (CopiedTexture.height - (boxCenter.y + boxH * scaleY * 0.5f)); // flip Y
+            float texW = boxW * scaleX;
+            float texH = boxH * scaleY;
+
+            // Clamp inside texture
+            texX = Mathf.Clamp(texX, 0, CopiedTexture.width - 1);
+            texY = Mathf.Clamp(texY, 0, CopiedTexture.height - 1);
+            texW = Mathf.Clamp(texW, 1, CopiedTexture.width - texX);
+            texH = Mathf.Clamp(texH, 1, CopiedTexture.height - texY);
+
+            Rect faceRect = new Rect(texX, texY, texW, texH);
+
+            CroppedFace = CropFace(CopiedTexture, faceRect);
+            Debug.Log($"Cropped rect: x={faceRect.x}, y={faceRect.y}, w={faceRect.width}, h={faceRect.height}, source={CopiedTexture.width}x{CopiedTexture.height}");
+
+            debugCamera.UpdateDebugTexture(CroppedFace);
+
+        }
 
         Debug.Log($"[Detect] Debug after Copy");
         // Invoke event with dominant face
@@ -268,15 +294,15 @@ public class FaceDetection : MonoBehaviour
 
     }
 
-    void CopyWebCamTexture(WebCamTexture  webCamTex)
+    void CopyWebCamTexture(WebCamTexture webCamTex)
     {
         if (webCamTex == null || !webCamTex.isPlaying)
-            return ;
+            return;
 
         Texture2D tex2D = new Texture2D(webCamTex.width, webCamTex.height, TextureFormat.RGB24, false);
         tex2D.SetPixels(webCamTex.GetPixels());
         tex2D.Apply();
-        copiedTexture = tex2D;
+        CopiedTexture = tex2D;
     }
 
 
@@ -313,12 +339,22 @@ public class FaceDetection : MonoBehaviour
         faceTex.SetPixels(pixels);
         faceTex.Apply();
 
-        // Cleanup
-        RenderTexture.active = prev;
-        RenderTexture.ReleaseTemporary(rt);
-        UnityEngine.Object.Destroy(sourceTex2D);
 
-        return faceTex;
+        // Rescale to target size
+        RenderTexture rtResize = RenderTexture.GetTemporary(croppedTargetWidth, croppedTargetHeight);
+        Graphics.Blit(faceTex, rtResize);
+        Texture2D resizedTex = new Texture2D(croppedTargetWidth, croppedTargetHeight, TextureFormat.RGB24, false);
+        RenderTexture.active = rtResize;
+        resizedTex.ReadPixels(new Rect(0, 0, croppedTargetWidth, croppedTargetHeight), 0, 0);
+        resizedTex.Apply();
+
+        RenderTexture.active = null;
+        RenderTexture.ReleaseTemporary(rtResize);
+
+        UnityEngine.Object.Destroy(sourceTex2D);
+        UnityEngine.Object.Destroy(faceTex);
+
+        return resizedTex;
     }
 
 
