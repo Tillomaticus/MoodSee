@@ -6,7 +6,10 @@ public class UnsaidDetectionmanager : MonoBehaviour
 {
 
     [SerializeField]
-    BlazeFaceTensor blazeFaceTensor;
+    GameObject FaceDetection;
+
+    [SerializeField]
+    WebCamTextureManager webCamTextureManager;
 
 
     [SerializeField] private OVRPassthroughLayer oVRPassthroughLayer;
@@ -23,6 +26,22 @@ public class UnsaidDetectionmanager : MonoBehaviour
         passthroughRunning = true;
     }
 
+    void Start()
+    {
+        StartCoroutine(WaitForInitialization());
+    }
+
+    IEnumerator WaitForInitialization()
+    {
+        while (webCamTextureManager.WebCamTexture == null)
+            yield return null;
+
+
+        Debug.Log("WebcamTexture populated, starting Face Detection");
+        //if its initialized start FaceDetection
+        FaceDetection.SetActive(true);
+    }
+
     private void OnDestroy()
     {
         oVRPassthroughLayer.passthroughLayerResumed.RemoveListener(OnPassthroughLayerResumed);
@@ -36,19 +55,7 @@ public class UnsaidDetectionmanager : MonoBehaviour
     }
 
 
-    void Start()
-    {
-        StartCoroutine("CaptureEvery5Seconds");
-    }
 
-    IEnumerator CaptureEvery5Seconds()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(5.0f);
-            TryGetFace();
-        }
-    }
 
 
     void TryGetFace()
@@ -58,7 +65,7 @@ public class UnsaidDetectionmanager : MonoBehaviour
         if (!passthroughRunning)
             return;
 
-        Texture2D faceImage = blazeFaceTensor.LatestCroppedFaceImage;
+       /* Texture2D faceImage = blazeFaceTensor.LatestCroppedFaceImage;
 
         Debug.Log("running");
 
@@ -70,6 +77,6 @@ public class UnsaidDetectionmanager : MonoBehaviour
         else
         {
              Debug.Log("Face found and cropped");
-        }
+        } */
     }
 }
