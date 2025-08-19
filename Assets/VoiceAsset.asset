@@ -35,9 +35,9 @@ MonoBehaviour:
     isPrivate: 0
     createdAt: 2025-08-18T16:41:52-0700
     trainingStatus: 1
-    lastTrainDuration: 30
-    lastTrainedAt: 2025-08-18T16:48:18-0700
-    nextTrainAt: 2025-08-18T16:47:48-0700
+    lastTrainDuration: 40
+    lastTrainedAt: 2025-08-18T17:22:55-0700
+    nextTrainAt: 2025-08-18T17:22:15-0700
     intents:
     - id: 23983174124717195
       name: wakeWord
@@ -48,11 +48,17 @@ MonoBehaviour:
     - name: wakeWord
       id: 1439148520570038
       lookups:
+      - free-text
       - keywords
       roles:
       - name: wakeWord
         id: 1262482375106199
-      keywords: []
+      keywords:
+      - keyword: Identify your expression
+        synonyms:
+        - expression
+        - identify
+        - identify your expression
     traits: []
     versionTags: []
     voices:
@@ -579,8 +585,8 @@ MonoBehaviour:
     _converse: 
   isDemoOnly: 0
   useIntentAttributes: 1
-  useConduit: 1
-  _manifestLocalPath: 
+  useConduit: 0
+  _manifestLocalPath: ConduitManifest-746d4da2-f82d-4558-9f2f-fe691d155304.json
   excludedAssemblies:
   - Oculus.Voice.Demo, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   - Meta.WitAi.Samples, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
