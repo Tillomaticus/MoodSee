@@ -15,6 +15,7 @@ public class VoiceSystem : MonoBehaviour
     [SerializeField] private UnityEvent<string> _completeTranscription;
 
 
+
     private string _dateId = "[DATE]";
 
 
@@ -37,7 +38,26 @@ public class VoiceSystem : MonoBehaviour
         _appVoiceExperience.VoiceEvents.OnFullTranscription.AddListener(OnFullTranscription);
 
         StartCoroutine(ActivateDelayed());
+
+        //we are continously forcing the reactivate, this is not recommended and very hacky. 
+        // This should be replaced by wake word or some proper activation
     }
+
+
+    IEnumerator ContinouslyReactivateListener()
+    {
+        while (_appVoiceExperience.isActiveAndEnabled)
+        {
+            yield return null;
+            if (_appVoiceExperience.Active)
+                yield return null;
+            else
+                _appVoiceExperience.Activate();
+        }
+    }
+
+
+
 
 
     //do this to prevent an error 
@@ -49,9 +69,12 @@ public class VoiceSystem : MonoBehaviour
         _appVoiceExperience.Deactivate();
         yield return null;
 
-        _appVoiceExperience.ActivateImmediately();
+        _appVoiceExperience.Activate();
 
-        _voiceCommandReady = true;  
+        _voiceCommandReady = true;
+
+        StartCoroutine(ContinouslyReactivateListener());
+
     }
 
     private void ReactivateVoice() => _appVoiceExperience.Activate();
@@ -79,11 +102,15 @@ public class VoiceSystem : MonoBehaviour
 
         //compare transcription to sentence
 
+        _appVoiceExperience.Deactivate();
+
         if (CompareToKeywords(transcription))
             StartNextScene();
         else
-             _appVoiceExperience.ActivateImmediately();
-
+        {
+            Debug.Log("Voiceline not valid, restarting listener");
+            StartCoroutine(ActivateDelayed());
+        }
         _completeTranscription?.Invoke(transcription);
     }
 
@@ -114,7 +141,8 @@ public class VoiceSystem : MonoBehaviour
     bool CompareToKeywords(string transcriptionText)
     {
         //"I will now record your face and use ChatGPT to identify your expression"
-        if (transcriptionText.Contains("record") && transcriptionText.Contains("identify") && transcriptionText.Contains("face"))
+        if ((transcriptionText.Contains("record") && transcriptionText.Contains("face")) ||
+        (transcriptionText.Contains("identify") && transcriptionText.Contains("expression")))
             return true;
 
         return false;

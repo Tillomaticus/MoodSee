@@ -1252,7 +1252,7 @@ MonoBehaviour:
     customTranscriptionProvider: {fileID: 0}
     alwaysRecord: 0
     preferredActivationOffset: -0.5
-    transcribeOnly: 0
+    transcribeOnly: 1
     pubSubSettings:
       PubSubTopicId: 
       PublishOptions:
