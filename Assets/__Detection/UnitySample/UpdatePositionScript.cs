@@ -20,10 +20,10 @@ public class UpdatePositionScript : MonoBehaviour
 
     //
     [SerializeField]
-    Vector3 emojiOffset = new Vector3(0f,0.1f,0f);
+    Vector3 emojiOffset = new Vector3(0f, 0.1f, 0f);
 
 
-// just for debug purpose
+    // just for debug purpose
     public static UpdatePositionScript Instance;
 
     void Awake()
@@ -52,15 +52,17 @@ public class UpdatePositionScript : MonoBehaviour
             }
             else
             {
-                //if we already have a target, then stop the old coroutine 
-                if (positionLerpCoroutine != null)
-                    StopCoroutine(positionLerpCoroutine);
+                /*   //if we already have a target, then stop the old coroutine 
+                   if (positionLerpCoroutine != null)
+                       StopCoroutine(positionLerpCoroutine);
 
-                // start a new coroutine and keep lerping towards target
-                positionLerpCoroutine = StartCoroutine(UpdatePositionLerped(result.worldPosition + emojiOffset));
+                   // start a new coroutine and keep lerping towards target
+                   positionLerpCoroutine = StartCoroutine(UpdatePositionLerped(result.worldPosition + emojiOffset));*/
+
+                EmoticonChanger.transform.position = result.worldPosition + emojiOffset;
             }
 
-            Debug.Log("Result y: " + result.worldPosition.y + " size " + result.imageSize.y);
+            //   Debug.Log("Result y: " + result.worldPosition.y + " size " + result.imageSize.y);
 
             //rotation
             Vector3 direction = EmoticonChanger.transform.position - centerEyeAnchor.transform.position;
