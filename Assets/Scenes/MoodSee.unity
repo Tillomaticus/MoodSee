@@ -547,7 +547,7 @@ MonoBehaviour:
   EmoticonChanger: {fileID: 680130623}
   centerEyeAnchor: {fileID: 510539541}
   lerpSpeed: 1
-  emojiOffset: {x: 0, y: 0.25, z: 0}
+  emojiOffset: {x: 0, y: 0.3, z: 0}
 --- !u!4 &363418399
 Transform:
   m_ObjectHideFlags: 0
@@ -953,6 +953,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3915499908905017091, guid: c38eece8df7cea74cb6d373c882a9a84, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 3915499908905017091, guid: c38eece8df7cea74cb6d373c882a9a84, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 3915499908905017091, guid: c38eece8df7cea74cb6d373c882a9a84, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 3915499908905017091, guid: c38eece8df7cea74cb6d373c882a9a84, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -991,6 +1003,10 @@ PrefabInstance:
     - target: {fileID: 3915499908905017091, guid: c38eece8df7cea74cb6d373c882a9a84, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3915499908905017091, guid: c38eece8df7cea74cb6d373c882a9a84, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8301165682884955986, guid: c38eece8df7cea74cb6d373c882a9a84, type: 3}
       propertyPath: m_Name
