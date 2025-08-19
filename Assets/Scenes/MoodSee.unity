@@ -547,7 +547,7 @@ MonoBehaviour:
   EmoticonChanger: {fileID: 680130623}
   centerEyeAnchor: {fileID: 510539541}
   lerpSpeed: 1
-  emojiOffset: {x: 0, y: 0.15, z: 0}
+  emojiOffset: {x: 0, y: 0.25, z: 0}
 --- !u!4 &363418399
 Transform:
   m_ObjectHideFlags: 0

@@ -1,13 +1,8 @@
 using UnityEngine;
-using Meta.WitAi.TTS.Utilities;
-using Meta.WitAi.CallbackHandlers;
 using UnityEngine.Events;
 using Oculus.Voice;
 using System.Collections;
 using System;
-using Oculus.Interaction.Samples;
-using Unity.VisualScripting;
-using UnityEditor.Rendering;
 using UnityEngine.SceneManagement;
 
 public class VoiceSystem : MonoBehaviour
@@ -56,7 +51,7 @@ public class VoiceSystem : MonoBehaviour
 
         _appVoiceExperience.ActivateImmediately();
 
-        _voiceCommandReady = true;
+        _voiceCommandReady = true;  
     }
 
     private void ReactivateVoice() => _appVoiceExperience.Activate();
