@@ -288,10 +288,10 @@ public class FaceDetection : MonoBehaviour
 
             Rect faceRect = new Rect(texX, texY, texW, texH);
 
-            CroppedFace = CropFace(CopiedTexture, faceRect);
+            //CroppedFace = CropFace(CopiedTexture, faceRect);
             //        Debug.Log($"Cropped rect: x={faceRect.x}, y={faceRect.y}, w={faceRect.width}, h={faceRect.height}, source={CopiedTexture.width}x{CopiedTexture.height}");
 
-            debugCamera.UpdateDebugTexture(CroppedFace);
+            //debugCamera.UpdateDebugTexture(CroppedFace);
 
         }
 
@@ -308,6 +308,12 @@ public class FaceDetection : MonoBehaviour
     {
         if (webCamTex == null || !webCamTex.isPlaying)
             return;
+
+
+        if (CopiedTexture != null)
+        {
+            Destroy(CopiedTexture); // release GPU memory
+        }
 
         Texture2D tex2D = new Texture2D(webCamTex.width, webCamTex.height, TextureFormat.RGB24, false);
         tex2D.SetPixels(webCamTex.GetPixels());
@@ -358,8 +364,10 @@ public class FaceDetection : MonoBehaviour
         resizedTex.ReadPixels(new Rect(0, 0, croppedTargetWidth, croppedTargetHeight), 0, 0);
         resizedTex.Apply();
 
-        RenderTexture.active = null;
+       // RenderTexture.active = null;
+        RenderTexture.active = prev; // restore previous RT
         RenderTexture.ReleaseTemporary(rtResize);
+        RenderTexture.ReleaseTemporary(rt);
 
         UnityEngine.Object.Destroy(sourceTex2D);
         UnityEngine.Object.Destroy(faceTex);
