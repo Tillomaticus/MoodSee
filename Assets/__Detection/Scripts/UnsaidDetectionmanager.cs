@@ -45,7 +45,7 @@ public class UnsaidDetectionmanager : MonoBehaviour
 
     public void HandleFaceDetected(FaceDetectionResult facePosition)
     {
-        Debug.Log("[DetectionManager] FaceDetected, trying to capture");
+      //  Debug.Log("[DetectionManager] FaceDetected, trying to capture");
         WebRequester.Instance.OnCaptureImage(FaceDetection.CopiedTexture);
     }
 

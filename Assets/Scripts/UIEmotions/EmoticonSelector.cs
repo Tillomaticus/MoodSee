@@ -26,11 +26,7 @@ public class EmoticonSelector : MonoBehaviour
         hideObjects();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
+  
     public void changeEmotion(Emotion emotion)
     {
         Debug.Log("changing to " + emotion);
