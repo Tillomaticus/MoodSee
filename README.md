@@ -4,6 +4,7 @@
 
 [See on Devpost](https://devpost.com/software/c23-moodsee-by-empaths-xr)
 
+[![Watch the video](https://img.youtube.com/vi/TGOCwYbNPf8/maxresdefault.jpg)](https://youtu.be/TGOCwYbNPf8)
 
 
 ## 🎯 Inspiration
