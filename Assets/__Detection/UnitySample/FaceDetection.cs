@@ -274,24 +274,35 @@ public class FaceDetection : MonoBehaviour
             float scaleX = (float)CopiedTexture.width / detectorInputSize;
             float scaleY = (float)CopiedTexture.height / detectorInputSize;
 
+
+            // expand the box for padding, so we get more of a portrait-style framing
+            float expandFactor =2f; // 2x bigger
+
+            float scaledW = boxW * scaleX * expandFactor;
+            float scaledH = boxH * scaleY  * expandFactor;
+
             // boxCenter is in CopiedTexture pixel coordinates already
-            float texX = boxCenter.x - (boxW * scaleX * 0.5f);
-            float texY = (CopiedTexture.height - (boxCenter.y + boxH * scaleY * 0.5f)); // flip Y
-            float texW = boxW * scaleX;
-            float texH = boxH * scaleY;
+            //   float texX = boxCenter.x - (boxW * scaleX * 0.5f);
+            //   float texY = (CopiedTexture.height - (boxCenter.y + boxH * scaleY * 0.5f)); // flip Y
+         
+            // Compute top-left corner in texture space (remember Unity's bottom-left origin)
+            float texX = boxCenter.x - scaledW * 0.5f;
+            float texY = CopiedTexture.height - (boxCenter.y + scaledH * 0.5f); // flip Y
+
 
             // Clamp inside texture
             texX = Mathf.Clamp(texX, 0, CopiedTexture.width - 1);
             texY = Mathf.Clamp(texY, 0, CopiedTexture.height - 1);
-            texW = Mathf.Clamp(texW, 1, CopiedTexture.width - texX);
-            texH = Mathf.Clamp(texH, 1, CopiedTexture.height - texY);
+            scaledW = Mathf.Clamp(scaledW, 1, CopiedTexture.width - texX);
+            scaledH = Mathf.Clamp(scaledH, 1, CopiedTexture.height - texY);
 
-            Rect faceRect = new Rect(texX, texY, texW, texH);
 
-            //CroppedFace = CropFace(CopiedTexture, faceRect);
-            //        Debug.Log($"Cropped rect: x={faceRect.x}, y={faceRect.y}, w={faceRect.width}, h={faceRect.height}, source={CopiedTexture.width}x{CopiedTexture.height}");
+            Rect faceRect = new Rect(texX, texY, scaledW, scaledH);
 
-            //debugCamera.UpdateDebugTexture(CroppedFace);
+            CroppedFace = CropFace(CopiedTexture, faceRect);
+            Debug.Log($"Cropped rect: x={faceRect.x}, y={faceRect.y}, w={faceRect.width}, h={faceRect.height}, source={CopiedTexture.width}x{CopiedTexture.height}");
+
+            debugCamera.UpdateDebugTexture(CroppedFace);
 
         }
 
@@ -323,56 +334,81 @@ public class FaceDetection : MonoBehaviour
 
 
     // Utility: crop a face into a new Texture2D
-    Texture2D CropFace(Texture source, Rect faceRect)
+    Texture2D CropFace(Texture2D source, Rect faceRect)
     {
         if (source == null || source.width == 0 || source.height == 0)
             return null;
 
-        // Clamp rect inside source bounds
-        int x = Mathf.Clamp(Mathf.FloorToInt(faceRect.x), 0, source.width - 1);
-        int y = Mathf.Clamp(Mathf.FloorToInt(faceRect.y), 0, source.height - 1);
-        int w = Mathf.Clamp(Mathf.FloorToInt(faceRect.width), 1, source.width - x);
-        int h = Mathf.Clamp(Mathf.FloorToInt(faceRect.height), 1, source.height - y);
+        // Use Face Rect as it is, as we do the conversion earlier
+        int x = Mathf.RoundToInt(faceRect.x);
+        int y = Mathf.RoundToInt(faceRect.y);
+        int width = Mathf.RoundToInt(faceRect.width);
+        int height = Mathf.RoundToInt(faceRect.height);
 
-        if (w <= 0 || h <= 0)
-            return null;
+        // Clamp so it doesn’t go outside the source texture
+        x = Mathf.Clamp(x, 0, source.width - 1);
+        y = Mathf.Clamp(y, 0, source.height - 1);
+        if (x + width > source.width) width = source.width - x;
+        if (y + height > source.height) height = source.height - y;
 
-        // Create a temporary RenderTexture the size of the full source
-        RenderTexture rt = RenderTexture.GetTemporary(source.width, source.height, 0, RenderTextureFormat.Default, RenderTextureReadWrite.Linear);
-        Graphics.Blit(source, rt);
+        // Read pixels into new texture
+        Texture2D cropped = new Texture2D(width, height, source.format, false);
+        Color[] pixels = source.GetPixels(x, y, width, height);
+        cropped.SetPixels(pixels);
+        cropped.Apply();
 
-        // Activate RT and read full source
-        RenderTexture prev = RenderTexture.active;
-        RenderTexture.active = rt;
-
-        Texture2D sourceTex2D = new Texture2D(source.width, source.height, TextureFormat.RGB24, false);
-        sourceTex2D.ReadPixels(new Rect(0, 0, source.width, source.height), 0, 0);
-        sourceTex2D.Apply();
-
-        // Extract the cropped pixels
-        Color[] pixels = sourceTex2D.GetPixels(x, y, w, h);
-        Texture2D faceTex = new Texture2D(w, h, TextureFormat.RGB24, false);
-        faceTex.SetPixels(pixels);
-        faceTex.Apply();
+        return cropped;
 
 
-        // Rescale to target size
-        RenderTexture rtResize = RenderTexture.GetTemporary(croppedTargetWidth, croppedTargetHeight);
-        Graphics.Blit(faceTex, rtResize);
-        Texture2D resizedTex = new Texture2D(croppedTargetWidth, croppedTargetHeight, TextureFormat.RGB24, false);
-        RenderTexture.active = rtResize;
-        resizedTex.ReadPixels(new Rect(0, 0, croppedTargetWidth, croppedTargetHeight), 0, 0);
-        resizedTex.Apply();
+        /* OLD STUFF
+                // Clamp rect inside source bounds
+                int x = Mathf.Clamp(Mathf.FloorToInt(faceRect.x), 0, source.width - 1);
+                int y = Mathf.Clamp(Mathf.FloorToInt(faceRect.y), 0, source.height - 1);
+                int w = Mathf.Clamp(Mathf.FloorToInt(faceRect.width), 1, source.width - x);
+                int h = Mathf.Clamp(Mathf.FloorToInt(faceRect.height), 1, source.height - y);
 
-       // RenderTexture.active = null;
-        RenderTexture.active = prev; // restore previous RT
-        RenderTexture.ReleaseTemporary(rtResize);
-        RenderTexture.ReleaseTemporary(rt);
+                if (w <= 0 || h <= 0)
+                    return null;
 
-        UnityEngine.Object.Destroy(sourceTex2D);
-        UnityEngine.Object.Destroy(faceTex);
+                // Create a temporary RenderTexture the size of the full source
+                RenderTexture rt = RenderTexture.GetTemporary(source.width, source.height, 0, RenderTextureFormat.Default, RenderTextureReadWrite.Linear);
+                Graphics.Blit(source, rt);
 
-        return resizedTex;
+                // Activate RT and read full source
+                RenderTexture prev = RenderTexture.active;
+                RenderTexture.active = rt;
+
+                Texture2D sourceTex2D = new Texture2D(source.width, source.height, TextureFormat.RGB24, false);
+                sourceTex2D.ReadPixels(new Rect(0, 0, source.width, source.height), 0, 0);
+                sourceTex2D.Apply();
+
+                // Extract the cropped pixels
+                Color[] pixels = sourceTex2D.GetPixels(x, y, w, h);
+                Texture2D faceTex = new Texture2D(w, h, TextureFormat.RGB24, false);
+                faceTex.SetPixels(pixels);
+                faceTex.Apply();
+
+
+                // Rescale to target size
+                RenderTexture rtResize = RenderTexture.GetTemporary(croppedTargetWidth, croppedTargetHeight);
+                Graphics.Blit(faceTex, rtResize);
+                Texture2D resizedTex = new Texture2D(croppedTargetWidth, croppedTargetHeight, TextureFormat.RGB24, false);
+                RenderTexture.active = rtResize;
+                resizedTex.ReadPixels(new Rect(0, 0, croppedTargetWidth, croppedTargetHeight), 0, 0);
+                resizedTex.Apply();
+
+               // RenderTexture.active = null;
+                RenderTexture.active = prev; // restore previous RT
+                RenderTexture.ReleaseTemporary(rtResize);
+                RenderTexture.ReleaseTemporary(rt);
+
+                UnityEngine.Object.Destroy(sourceTex2D);
+                UnityEngine.Object.Destroy(faceTex);
+
+                return resizedTex;
+
+
+                */
     }
 
 

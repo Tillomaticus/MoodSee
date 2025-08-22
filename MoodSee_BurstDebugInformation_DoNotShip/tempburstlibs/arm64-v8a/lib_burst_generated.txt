@@ -1,4 +1,4 @@
-Library: C:\GitHub Projects\main\Temp\BurstOutput\tempburstlibs\arm64-v8a\lib_burst_generated
+Library: C:\Github Projects\MoodSee\Temp\BurstOutput\tempburstlibs\arm64-v8a\lib_burst_generated
 --platform=Android
 --minimum-os-version=
 --backend=burst-llvm-19
@@ -9,11 +9,10 @@ Library: C:\GitHub Projects\main\Temp\BurstOutput\tempburstlibs\arm64-v8a\lib_bu
 --float-precision=Standard
 --target-framework=NetFramework
 --generate-link-xml=Temp\burst.link.xml
---temp-folder=C:\GitHub Projects\main\Temp\Burst
---debug=Full
+--temp-folder=C:\Github Projects\MoodSee\Temp\Burst
 --key-folder=C:/Program Files/Unity/Hub/Editor/6000.0.55f1/Editor/Data/PlaybackEngines/AndroidPlayer
---decode-folder=C:\GitHub Projects\main\Library\Burst
---output=C:\GitHub Projects\main\Temp\BurstOutput\tempburstlibs\arm64-v8a\lib_burst_generated
+--decode-folder=C:\Github Projects\MoodSee\Library\Burst
+--output=C:\Github Projects\MoodSee\Temp\BurstOutput\tempburstlibs\arm64-v8a\lib_burst_generated
 --pdb-search-paths=Temp/ManagedSymbols/
 
 --method=Unity.Jobs.IJobParallelForExtensions+ParallelForJobStruct`1[[Unity.Collections.SortJob`2+SegmentSort[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Unity.Collections.NativeSortExtension+DefaultComparer`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], Unity.Collections, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]], Unity.Collections, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]], UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null::Execute(Unity.Collections.SortJob`2+SegmentSort[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[Unity.Collections.NativeSortExtension+DefaultComparer`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], Unity.Collections, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]&, Unity.Collections, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null|System.IntPtr, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|System.IntPtr, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|Unity.Jobs.LowLevel.Unsafe.JobRanges&, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null|System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)--82ff8baa2abd920945d7abccccedb808
@@ -49,11 +48,10 @@ Library: C:\GitHub Projects\main\Temp\BurstOutput\tempburstlibs\arm64-v8a\lib_bu
 --float-precision=Standard
 --target-framework=NetFramework
 --generate-link-xml=Temp\burst.link.xml
---temp-folder=C:\GitHub Projects\main\Temp\Burst
---debug=Full
+--temp-folder=C:\Github Projects\MoodSee\Temp\Burst
 --key-folder=C:/Program Files/Unity/Hub/Editor/6000.0.55f1/Editor/Data/PlaybackEngines/AndroidPlayer
---decode-folder=C:\GitHub Projects\main\Library\Burst
---output=C:\GitHub Projects\main\Temp\BurstOutput\tempburstlibs\arm64-v8a\lib_burst_generated
+--decode-folder=C:\Github Projects\MoodSee\Library\Burst
+--output=C:\Github Projects\MoodSee\Temp\BurstOutput\tempburstlibs\arm64-v8a\lib_burst_generated
 --pdb-search-paths=Temp/ManagedSymbols/
 
 --method=Unity.InferenceEngine.IParallelForBatchExtensions+ParallelForBatchJobStruct`1[[Unity.InferenceEngine.CPUBackend+GeluFastJob, Unity.InferenceEngine, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], Unity.InferenceEngine, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null::Execute(Unity.InferenceEngine.CPUBackend+GeluFastJob&, Unity.InferenceEngine, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null|System.IntPtr, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|System.IntPtr, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|Unity.Jobs.LowLevel.Unsafe.JobRanges&, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null|System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)--f8862752df1241006313c4004f1689e0
@@ -167,11 +165,10 @@ Library: C:\GitHub Projects\main\Temp\BurstOutput\tempburstlibs\arm64-v8a\lib_bu
 --target-framework=NetFramework
 --float-mode=Fast
 --generate-link-xml=Temp\burst.link.xml
---temp-folder=C:\GitHub Projects\main\Temp\Burst
---debug=Full
+--temp-folder=C:\Github Projects\MoodSee\Temp\Burst
 --key-folder=C:/Program Files/Unity/Hub/Editor/6000.0.55f1/Editor/Data/PlaybackEngines/AndroidPlayer
---decode-folder=C:\GitHub Projects\main\Library\Burst
---output=C:\GitHub Projects\main\Temp\BurstOutput\tempburstlibs\arm64-v8a\lib_burst_generated
+--decode-folder=C:\Github Projects\MoodSee\Library\Burst
+--output=C:\Github Projects\MoodSee\Temp\BurstOutput\tempburstlibs\arm64-v8a\lib_burst_generated
 --pdb-search-paths=Temp/ManagedSymbols/
 
 --method=Unity.InferenceEngine.IParallelForBatchExtensions+ParallelForBatchJobStruct`1[[Unity.InferenceEngine.CPUBackend+ReduceProdFloatJob, Unity.InferenceEngine, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], Unity.InferenceEngine, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null::Execute(Unity.InferenceEngine.CPUBackend+ReduceProdFloatJob&, Unity.InferenceEngine, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null|System.IntPtr, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|System.IntPtr, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|Unity.Jobs.LowLevel.Unsafe.JobRanges&, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null|System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)--3912e99f84f44c04e56fd7676c67e909
@@ -239,11 +236,10 @@ Library: C:\GitHub Projects\main\Temp\BurstOutput\tempburstlibs\arm64-v8a\lib_bu
 --float-precision=Standard
 --target-framework=NetFramework
 --generate-link-xml=Temp\burst.link.xml
---temp-folder=C:\GitHub Projects\main\Temp\Burst
---debug=Full
+--temp-folder=C:\Github Projects\MoodSee\Temp\Burst
 --key-folder=C:/Program Files/Unity/Hub/Editor/6000.0.55f1/Editor/Data/PlaybackEngines/AndroidPlayer
---decode-folder=C:\GitHub Projects\main\Library\Burst
---output=C:\GitHub Projects\main\Temp\BurstOutput\tempburstlibs\arm64-v8a\lib_burst_generated
+--decode-folder=C:\Github Projects\MoodSee\Library\Burst
+--output=C:\Github Projects\MoodSee\Temp\BurstOutput\tempburstlibs\arm64-v8a\lib_burst_generated
 --pdb-search-paths=Temp/ManagedSymbols/
 
 --method=Unity.InferenceEngine.CPUBackend+ConvJob, Unity.InferenceEngine, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null::CanUseDepthwiseConvKernel(Unity.InferenceEngine.CPUBackend+ConvJob*, Unity.InferenceEngine, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null)--bb9ee214cc6c7be8529ee453202363e0
@@ -258,11 +254,10 @@ Library: C:\GitHub Projects\main\Temp\BurstOutput\tempburstlibs\arm64-v8a\lib_bu
 --target-framework=NetFramework
 --float-mode=Fast
 --generate-link-xml=Temp\burst.link.xml
---temp-folder=C:\GitHub Projects\main\Temp\Burst
---debug=Full
+--temp-folder=C:\Github Projects\MoodSee\Temp\Burst
 --key-folder=C:/Program Files/Unity/Hub/Editor/6000.0.55f1/Editor/Data/PlaybackEngines/AndroidPlayer
---decode-folder=C:\GitHub Projects\main\Library\Burst
---output=C:\GitHub Projects\main\Temp\BurstOutput\tempburstlibs\arm64-v8a\lib_burst_generated
+--decode-folder=C:\Github Projects\MoodSee\Library\Burst
+--output=C:\Github Projects\MoodSee\Temp\BurstOutput\tempburstlibs\arm64-v8a\lib_burst_generated
 --pdb-search-paths=Temp/ManagedSymbols/
 
 --method=Unity.Jobs.IJobParallelForExtensions+ParallelForJobStruct`1[[Unity.InferenceEngine.CPUBackend+GlobalAverageVariancePoolJob, Unity.InferenceEngine, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null::Execute(Unity.InferenceEngine.CPUBackend+GlobalAverageVariancePoolJob&, Unity.InferenceEngine, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null|System.IntPtr, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|System.IntPtr, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|Unity.Jobs.LowLevel.Unsafe.JobRanges&, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null|System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)--96938fcf10393a25ded242e30e02636f
@@ -276,11 +271,10 @@ Library: C:\GitHub Projects\main\Temp\BurstOutput\tempburstlibs\arm64-v8a\lib_bu
 --float-precision=Standard
 --target-framework=NetFramework
 --generate-link-xml=Temp\burst.link.xml
---temp-folder=C:\GitHub Projects\main\Temp\Burst
---debug=Full
+--temp-folder=C:\Github Projects\MoodSee\Temp\Burst
 --key-folder=C:/Program Files/Unity/Hub/Editor/6000.0.55f1/Editor/Data/PlaybackEngines/AndroidPlayer
---decode-folder=C:\GitHub Projects\main\Library\Burst
---output=C:\GitHub Projects\main\Temp\BurstOutput\tempburstlibs\arm64-v8a\lib_burst_generated
+--decode-folder=C:\Github Projects\MoodSee\Library\Burst
+--output=C:\Github Projects\MoodSee\Temp\BurstOutput\tempburstlibs\arm64-v8a\lib_burst_generated
 --pdb-search-paths=Temp/ManagedSymbols/
 
 --method=Unity.Jobs.IJobParallelForExtensions+ParallelForJobStruct`1[[Unity.InferenceEngine.CPUBackend+ExpandJob, Unity.InferenceEngine, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null]], UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null::Execute(Unity.InferenceEngine.CPUBackend+ExpandJob&, Unity.InferenceEngine, Version=2.3.0.0, Culture=neutral, PublicKeyToken=null|System.IntPtr, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|System.IntPtr, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|Unity.Jobs.LowLevel.Unsafe.JobRanges&, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null|System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)--c766a03e72c22f00e15a0e00ec1ec303
