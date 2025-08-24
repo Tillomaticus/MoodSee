@@ -45,8 +45,10 @@ public class FaceDetection : MonoBehaviour
     public Texture2D CopiedTexture { get; private set; }
     public Texture2D CroppedFace { get; private set; }
 
-    [SerializeField] int croppedTargetWidth = 226;
-    [SerializeField] int croppedTargetHeight = 226;
+    [SerializeField] int croppedTargetWidth = 48;
+    [SerializeField] int croppedTargetHeight = 48;
+    [SerializeField] bool greyScale = false;
+
 
 
     public FaceDetectedEvent OnFaceDetected;
@@ -276,15 +278,15 @@ public class FaceDetection : MonoBehaviour
 
 
             // expand the box for padding, so we get more of a portrait-style framing
-            float expandFactor =2f; // 2x bigger
+            float expandFactor = 2f; // 2x bigger
 
             float scaledW = boxW * scaleX * expandFactor;
-            float scaledH = boxH * scaleY  * expandFactor;
+            float scaledH = boxH * scaleY * expandFactor;
 
             // boxCenter is in CopiedTexture pixel coordinates already
             //   float texX = boxCenter.x - (boxW * scaleX * 0.5f);
             //   float texY = (CopiedTexture.height - (boxCenter.y + boxH * scaleY * 0.5f)); // flip Y
-         
+
             // Compute top-left corner in texture space (remember Unity's bottom-left origin)
             float texX = boxCenter.x - scaledW * 0.5f;
             float texY = CopiedTexture.height - (boxCenter.y + scaledH * 0.5f); // flip Y
@@ -359,56 +361,40 @@ public class FaceDetection : MonoBehaviour
 
         return cropped;
 
+    }
 
-        /* OLD STUFF
-                // Clamp rect inside source bounds
-                int x = Mathf.Clamp(Mathf.FloorToInt(faceRect.x), 0, source.width - 1);
-                int y = Mathf.Clamp(Mathf.FloorToInt(faceRect.y), 0, source.height - 1);
-                int w = Mathf.Clamp(Mathf.FloorToInt(faceRect.width), 1, source.width - x);
-                int h = Mathf.Clamp(Mathf.FloorToInt(faceRect.height), 1, source.height - y);
+    public Texture2D RescaleAndGreyscale(Texture2D originalTexture)
+    {
+        // --- Step 1: Scale down using RenderTexture (faster & better quality than GetPixels) ---
+        RenderTexture rt = RenderTexture.GetTemporary(croppedTargetWidth, croppedTargetHeight);
+        rt.filterMode = FilterMode.Bilinear;
+        RenderTexture.active = rt;
+        Graphics.Blit(originalTexture, rt);
 
-                if (w <= 0 || h <= 0)
-                    return null;
+        Texture2D scaled = new Texture2D(croppedTargetWidth, croppedTargetHeight, TextureFormat.RGBA32, false);
+        scaled.ReadPixels(new Rect(0, 0, croppedTargetWidth, croppedTargetHeight), 0, 0);
+        scaled.Apply();
 
-                // Create a temporary RenderTexture the size of the full source
-                RenderTexture rt = RenderTexture.GetTemporary(source.width, source.height, 0, RenderTextureFormat.Default, RenderTextureReadWrite.Linear);
-                Graphics.Blit(source, rt);
-
-                // Activate RT and read full source
-                RenderTexture prev = RenderTexture.active;
-                RenderTexture.active = rt;
-
-                Texture2D sourceTex2D = new Texture2D(source.width, source.height, TextureFormat.RGB24, false);
-                sourceTex2D.ReadPixels(new Rect(0, 0, source.width, source.height), 0, 0);
-                sourceTex2D.Apply();
-
-                // Extract the cropped pixels
-                Color[] pixels = sourceTex2D.GetPixels(x, y, w, h);
-                Texture2D faceTex = new Texture2D(w, h, TextureFormat.RGB24, false);
-                faceTex.SetPixels(pixels);
-                faceTex.Apply();
+        RenderTexture.active = null;
+        RenderTexture.ReleaseTemporary(rt);
 
 
-                // Rescale to target size
-                RenderTexture rtResize = RenderTexture.GetTemporary(croppedTargetWidth, croppedTargetHeight);
-                Graphics.Blit(faceTex, rtResize);
-                Texture2D resizedTex = new Texture2D(croppedTargetWidth, croppedTargetHeight, TextureFormat.RGB24, false);
-                RenderTexture.active = rtResize;
-                resizedTex.ReadPixels(new Rect(0, 0, croppedTargetWidth, croppedTargetHeight), 0, 0);
-                resizedTex.Apply();
-
-               // RenderTexture.active = null;
-                RenderTexture.active = prev; // restore previous RT
-                RenderTexture.ReleaseTemporary(rtResize);
-                RenderTexture.ReleaseTemporary(rt);
-
-                UnityEngine.Object.Destroy(sourceTex2D);
-                UnityEngine.Object.Destroy(faceTex);
-
-                return resizedTex;
+        if (greyScale)
+        {
+            // --- Step 2: Convert to grayscale ---
+            Color[] pixels = scaled.GetPixels();
+            for (int i = 0; i < pixels.Length; i++)
+            {
+                Color c = pixels[i];
+                float gray = c.grayscale; // Unity built-in grayscale (0.299R + 0.587G + 0.114B)
+                pixels[i] = new Color(gray, gray, gray, c.a);
+            }
+            scaled.SetPixels(pixels);
+            scaled.Apply();
+        }
 
 
-                */
+        return scaled;
     }
 
 

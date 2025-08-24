@@ -848,6 +848,7 @@ GameObject:
   - component: {fileID: 554446248}
   - component: {fileID: 554446250}
   - component: {fileID: 554446251}
+  - component: {fileID: 554446252}
   m_Layer: 0
   m_Name: FaceDetection (keep turned off)
   m_TagString: Untagged
@@ -871,6 +872,7 @@ MonoBehaviour:
   vrCamera: {fileID: 510539544}
   croppedTargetWidth: 226
   croppedTargetHeight: 226
+  greyScale: 0
   OnFaceDetected:
     m_PersistentCalls:
       m_Calls:
@@ -945,6 +947,21 @@ MonoBehaviour:
   faceDetection: {fileID: 554446248}
   minScoreThreshold: 0.5
   step: 0.1
+--- !u!114 &554446252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 554446247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e73bb64eca23b1e4094fb90f5e8f949e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  modelAsset: {fileID: 5022602860645237092, guid: 14d57f5bc58cdce4ab39158ab18bc4e8, type: 3}
+  Activate: 0
+  testImage: {fileID: 0}
 --- !u!1 &668251477
 GameObject:
   m_ObjectHideFlags: 0

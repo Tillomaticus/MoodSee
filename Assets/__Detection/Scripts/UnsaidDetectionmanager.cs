@@ -2,7 +2,7 @@ using UnityEngine;
 using PassthroughCameraSamples;
 using System.Collections;
 
-public class UnsaidDetectionmanager : MonoBehaviour
+public class MoodSeeFaceDetectionmanager : MonoBehaviour
 {
 
     [SerializeField]
@@ -37,16 +37,21 @@ public class UnsaidDetectionmanager : MonoBehaviour
             yield return null;
 
 
-      //  Debug.Log("WebcamTexture populated, starting Face Detection");
+        //  Debug.Log("WebcamTexture populated, starting Face Detection");
         //if its initialized start FaceDetection
         FaceDetection.gameObject.SetActive(true);
-       // FaceDetection.OnFaceDetected.AddListener(HandleFaceDetected);
+        // FaceDetection.OnFaceDetected.AddListener(HandleFaceDetected);
     }
 
     public void HandleFaceDetected(FaceDetectionResult facePosition)
     {
-      //  Debug.Log("[DetectionManager] FaceDetected, trying to capture");
-        WebRequester.Instance.OnCaptureImage(FaceDetection.CopiedTexture);
+        //  Debug.Log("[DetectionManager] FaceDetected, trying to capture");
+        Texture2D faceForEmotionDetection = FaceDetection.RescaleAndGreyscale(FaceDetection.CopiedTexture);
+
+        EmotionDetector.Instance.PredictEmotion(faceForEmotionDetection);
+
+        Destroy(faceForEmotionDetection);
+        //  WebRequester.Instance.OnCaptureImage(FaceDetection.CopiedTexture);
     }
 
 
