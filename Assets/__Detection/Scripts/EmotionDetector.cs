@@ -9,9 +9,14 @@ public class EmotionDetector : MonoBehaviour
     private Tensor<float> inputTensor;
     private int modelLayerCount;
 
+    [SerializeField]
+    EmotionUI emotionUI;
+
     [Header("Testing")]
     public bool Activate = false;
     public Texture2D testImage;
+
+
 
 
 
@@ -19,7 +24,7 @@ public class EmotionDetector : MonoBehaviour
 
 
 
-    private string[] expressions = new string[]
+    public string[] expressions = new string[]
     {
         "Angry", "Disgust", "Fear", "Happy", "Sad", "Surprise", "Neutral"
     };
@@ -49,14 +54,19 @@ public class EmotionDetector : MonoBehaviour
         inputTensor = new Tensor<float>(new TensorShape(1, 1, 48, 48));
     }
 
-    void Update()
-    {
-        if (Activate)
-        {
-            Activate = false;
-            PredictEmotion(testImage);
-        }
-    }
+
+
+    /// <summary>
+    /// For Testing
+    /// </summary>
+    // void Update()
+    // {
+    //     if (Activate)
+    //     {
+    //         Activate = false;
+    //         PredictEmotion(testImage);
+    //     }
+    // }
 
 
     public string PredictEmotion(Texture2D faceTexture)
@@ -110,6 +120,8 @@ public class EmotionDetector : MonoBehaviour
         }
 
         Debug.Log("Top Expression: " + expressions[topIndex]);
+
+        emotionUI.RefreshUI(expressions[topIndex], probs);
 
         return expressions[topIndex];
     }

@@ -302,7 +302,7 @@ public class FaceDetection : MonoBehaviour
             Rect faceRect = new Rect(texX, texY, scaledW, scaledH);
 
             CroppedFace = CropFace(CopiedTexture, faceRect);
-            Debug.Log($"Cropped rect: x={faceRect.x}, y={faceRect.y}, w={faceRect.width}, h={faceRect.height}, source={CopiedTexture.width}x{CopiedTexture.height}");
+           // Debug.Log($"Cropped rect: x={faceRect.x}, y={faceRect.y}, w={faceRect.width}, h={faceRect.height}, source={CopiedTexture.width}x{CopiedTexture.height}");
 
             debugCamera.UpdateDebugTexture(CroppedFace);
 
