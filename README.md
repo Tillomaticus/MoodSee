@@ -1,5 +1,20 @@
 # MoodSee
 
+## 2.2 Update
+
+- Added local emotion tracking using FER2013 and Unity Inference Engine.
+
+The current model is not the best choice for tracking the emotions as its trained on 32x32 greyscale 2d images.
+I found that tilting your head can influence the detected expression. 
+As a proof of concept, I am happy with the current state. 
+But there is definetly room for improvement, both in smoothing the facetracking as well as selecting or training a better model for increased accuracy.
+
+<img src="https://github.com/Tillomaticus/MoodSee/blob/main/Happy.jpg" alt="Happy" width="200"/>
+<img src="https://github.com/Tillomaticus/MoodSee/blob/main/Fear.jpg" alt="Fear" width="200"/>
+<img src="https://github.com/Tillomaticus/MoodSee/blob/main/Angry.jpg" alt="Angry" width="200"/>
+
+----
+
 ### 2025 XRAIHack Cologne Project
 
 [See on Devpost](https://devpost.com/software/c23-moodsee-by-empaths-xr)
@@ -45,7 +60,6 @@ MoodSee is designed for neurodiverse users, especially those with autism, who st
 
 ## ⏭️ What's next for MoodSee by Empaths XR
 - User testing!
-- Local live tracking to remove reliance on ChatGPT or third-party libraries
 - Consent feature that allows users to ask conversation partners for permission
 - Voice detection to add another layer of emotional context
 - Pet emotion tracking
