@@ -2,7 +2,8 @@
 
 ## 2.2 Update
 
-- Added local emotion tracking using FER2013 and Unity Inference Engine.
+- Added local emotion tracking using a model trained on FER2013 and Unity Inference Engine.
+(Model used: https://github.com/shangeth/Facial-Emotion-Recognition-PyTorch-ONNX)
 
 The current model is not the best choice for tracking the emotions as its trained on 32x32 greyscale 2d images.
 I found that tilting your head can influence the detected expression. 
